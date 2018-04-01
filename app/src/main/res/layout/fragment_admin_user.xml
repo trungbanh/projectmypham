@@ -1,0 +1,20 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.example.vuphu.app.admin.AdminCatogoriesFragment">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_admin_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="always"
+        android:padding="4dp"
+        app:spanCount="2"
+        tools:listitem="@layout/admin_item_user">
+
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

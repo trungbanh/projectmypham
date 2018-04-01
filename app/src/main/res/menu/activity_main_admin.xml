@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <item android:title="Tổng quan">
+        <menu>
+            <item
+                android:id="@+id/nav_admin_cato"
+                android:icon="@drawable/ic_menu_catogies"
+                android:title="Danh mục sản phẩm" />
+
+            <item
+                android:id="@+id/nav_admin_orders"
+                android:icon="@drawable/ic_orders"
+                android:title="Đơn hàng" />
+        </menu>
+    </item>
+
+    <item android:title="Tài khoản người dùng">
+        <menu>
+            <item
+                android:id="@+id/nav_admin_user"
+                android:icon="@drawable/ic_menu_profile"
+                android:title="Quản lí người dùng" />
+            <item
+                android:id="@+id/nav_admin_logout"
+                android:icon="@drawable/ic_menu_logout"
+                android:title="Đăng xuất" />
+        </menu>
+    </item>
+
+</menu>

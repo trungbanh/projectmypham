@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+
+    android:background="#ECEFF1"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="match_parent"
+                android:src="@drawable/mypham"
+                android:id="@+id/img_admin_edit_product"
+                android:layout_height="230dp" />
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:id="@+id/btn_admin_edit_image"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:fabSize="mini"
+                android:tint="@android:color/white"
+                android:layout_gravity="bottom|end"
+                android:src="@drawable/ic_mode_edit_black_24dp"/>
+        </FrameLayout>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            app:cardElevation="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:text="Sản phẩm A"
+                        android:hint="Tên sản phẩm"
+                        android:inputType="text"
+                        android:id="@+id/edt_admin_product"
+                        android:textColor="@android:color/black"
+                        android:fontFamily="sans-serif"
+                        android:textSize="20sp"/>
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:text="200.000"
+                        android:inputType="numberDecimal"
+                        android:hint="Giá sản phẩm"
+                        android:id="@+id/edt_admin_product_price"
+                        android:textColor="@android:color/black"
+                        android:fontFamily="sans-serif"
+                        android:textSize="20sp"/>
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+
+
+                        android:hint="Giới thiệu"
+                        android:lines="8"
+                        android:textAlignment="textStart"
+                        android:id="@+id/edt_admin_product_content"
+                        android:textColor="@android:color/black"
+                        android:fontFamily="sans-serif"
+                        android:textSize="16sp"/>
+                </android.support.design.widget.TextInputLayout>
+                <Button
+                    android:id="@+id/btn_admin_edit_product"
+                    android:layout_width="120dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="10dp"
+                    android:elevation="8dp"
+                    android:translationZ="8dp"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="sans-serif-light"
+                    android:background="@drawable/btn_bg"
+                    android:textColor="@android:color/white"
+                    android:text="Cập nhật" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+
+    </LinearLayout>
+
+</ScrollView>
