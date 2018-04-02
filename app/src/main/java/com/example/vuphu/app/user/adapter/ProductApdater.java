@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.vuphu.app.R;
 import com.example.vuphu.app.object.Product;
 import com.example.vuphu.app.user.DetailProductActivity;
@@ -73,9 +72,8 @@ public class ProductApdater {
                 }
             });
 
-            //holder.img_product.setImageBitmap(showImage ("http://10.0.2.2:3300"+list.get(position).getProductImage()));
-            //http://localhost:3300/tmp/2018-03-31T07-55-41.166Z1408855658.jpg
-            Glide.with(context).load("http://10.0.2.2:3300"+list.get(position).getProductImage()).into(holder.img_product);
+
+            holder.img_product.setImageBitmap(showImage ("http://10.0.2.2:3300"+list.get(position).getProductImage()));
             Log.i("image",list.get(position).getProductImage());
         }
 
