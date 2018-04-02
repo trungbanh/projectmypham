@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity
 
         pre =getSharedPreferences("data", MODE_PRIVATE);
         edit=pre.edit();
-        String user=pre.getString("type_user", "");
+        String user=pre.getString("type_user", "user");
         //set drawer
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (user.equals("admin")) {

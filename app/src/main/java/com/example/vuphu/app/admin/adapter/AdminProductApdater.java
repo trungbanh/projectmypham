@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.example.vuphu.app.R;
 import com.example.vuphu.app.admin.AdminEditProductActivity;
-import com.example.vuphu.app.object.product;
+import com.example.vuphu.app.object.Product;
 
 import java.util.ArrayList;
 
@@ -44,9 +44,9 @@ public class AdminProductApdater {
 
     public static class productAdap extends RecyclerView.Adapter<productViewHolder>{
 
-        ArrayList<product> list;
+        ArrayList<Product> list;
         Context context;
-        public productAdap(ArrayList<product> list, Context context) {
+        public productAdap(ArrayList<Product> list, Context context) {
             this.list = list;
             this.context = context;
         }

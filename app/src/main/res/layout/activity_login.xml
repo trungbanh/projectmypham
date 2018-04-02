@@ -39,7 +39,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Đăng nhập"
+                    android:text="Login"
                     android:textSize="25sp"
                     android:fontFamily="sans-serif-medium"
                     android:textColor="@color/colorAccent"
@@ -69,7 +69,7 @@
                         android:layout_alignBottom="@+id/cardView"
                         android:layout_alignParentStart="true"
 
-                        android:hint="Mật khẩu"
+                        android:hint="Password"
                         android:inputType="textPassword"
                         android:pointerIcon="none" />
                 </android.support.design.widget.TextInputLayout>
@@ -84,7 +84,7 @@
                     android:fontFamily="sans-serif-light"
                     android:background="@drawable/btn_bg"
                     android:textColor="@android:color/white"
-                    android:text="Đăng nhập" />
+                    android:text="Signin" />
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
@@ -105,7 +105,7 @@
         android:textStyle="italic"
 
         android:textColor="@android:color/black"
-        android:text="Quên mật khẩu?" />
+        android:text="I forget my password" />
 
     <Button
         android:id="@+id/btn_signup"
@@ -120,7 +120,7 @@
         android:fontFamily="sans-serif-light"
         android:background="@drawable/btn_bg"
         android:textColor="@android:color/white"
-        android:text="Đăng kí" />
+        android:text="Signup" />
 </LinearLayout>
 
 
