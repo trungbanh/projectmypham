@@ -59,6 +59,7 @@ public class AdminUserFragment extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
         list_users.setLayoutManager(gridLayoutManager);
 
+        // get <user> kem token admin trong header
 
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getContext(), R.dimen.item_offset);
         list_users.addItemDecoration(itemDecoration);

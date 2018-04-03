@@ -53,10 +53,11 @@ public class AdminOrdersFragment extends Fragment {
         list.add(new order("22/12/2012","20.000","Đang xử lí","Nguyễn Thị A"));
         list.add(new order("22/12/2012","20.000","Đang xử lí","Nguyễn Thị A"));
 
-
         list_order = v.findViewById(R.id.list_admin_orders);
 
         LinearLayoutManager gridLayoutManager = new LinearLayoutManager(getContext());
+
+        // get/orders
 
         list_order.setLayoutManager(gridLayoutManager);
         list_order.setHasFixedSize(true);

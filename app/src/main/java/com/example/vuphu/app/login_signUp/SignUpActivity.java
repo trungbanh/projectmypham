@@ -70,7 +70,6 @@ public class SignUpActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 token = gson.fromJson(json,SignUpToken.class);
 
-
                 //Log.i("messager",token.getMessage());
 
             }

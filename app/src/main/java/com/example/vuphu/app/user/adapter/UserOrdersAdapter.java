@@ -63,6 +63,7 @@ public class UserOrdersAdapter {
             holder.tv_date.setText(list.get(position).getDate());
             holder.tv_status.setText(list.get(position).getStatus());
 
+            // get <json> kem token
 
         }
 
