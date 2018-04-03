@@ -84,13 +84,11 @@ public class AdminCatogoriesFragment extends Fragment {
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
 
                 Gson gson = new Gson();
-                String json = response.toString();
-
                 JSONArray jArray = (JSONArray)response;
                 if (jArray != null) {
                     for (int i=0;i<jArray.length();i++){
                         try {
-                            list.add((Product) jArray.get(i));
+                            list.add(gson.fromJson(jArray.get(i).toString(),Product.class));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
