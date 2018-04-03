@@ -25,6 +25,9 @@ public class AsyncHttpApi {
     public static void put(Context context, String url, RequestParams params, JsonHttpResponseHandler responseHandler) {
         client.put(context,url,params, responseHandler);
     }
+    public static void delete(Context context, String url,Header[] headers, RequestParams params, JsonHttpResponseHandler responseHandler){
+        client.delete(context,url,headers,responseHandler);
+    }
 
 
     private static String getAbsoluteUrl(String relativeUrl) {
