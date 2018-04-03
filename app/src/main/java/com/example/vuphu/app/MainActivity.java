@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-                AsyncHttpApi.get("/products/"+query,null,new JsonHttpResponseHandler(){
+                AsyncHttpApi.get("/products/search/"+query,null,new JsonHttpResponseHandler(){
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                         super.onSuccess(statusCode, headers, response);
@@ -69,6 +69,17 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                AsyncHttpApi.get("/products/search/"+newText,null,new JsonHttpResponseHandler(){
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                        super.onSuccess(statusCode, headers, response);
+                        android.support.v4.app.FragmentTransaction transaction;
+                        transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.content, SearchFragment.newInstance(response)).addToBackStack(null);
+                        transaction.commit();
+
+                    }
+                });
                 return false;
             }
         });
@@ -83,7 +94,7 @@ public class MainActivity extends AppCompatActivity
 
         pre =getSharedPreferences("data", MODE_PRIVATE);
         edit=pre.edit();
-        String user=pre.getString("type_user", "user");
+        String user=pre.getString("type_user", "");
         //set drawer
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (user.equals("admin")) {

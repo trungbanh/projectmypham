@@ -2,6 +2,7 @@ package com.example.vuphu.app;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
+import com.example.vuphu.app.admin.adapter.AdminProductApdater;
 import com.example.vuphu.app.object.Product;
 import com.example.vuphu.app.user.adapter.ProductApdater;
 import com.example.vuphu.app.user.adapter.ViewPagerAdapter;
@@ -26,12 +28,15 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 public class SearchFragment extends Fragment {
 
     private RecyclerView list_product;
     private ArrayList<Product> product;
     private JSONArray jsonArray;
+    private SharedPreferences pre;
     @SuppressLint("ValidFragment")
     public SearchFragment(JSONArray jsonArray) {
         this.jsonArray = jsonArray;
@@ -65,10 +70,11 @@ public class SearchFragment extends Fragment {
         list_product.setLayoutManager(gridLayoutManager);
 
         product = new ArrayList<>();
-
+        pre =getActivity().getSharedPreferences("data", MODE_PRIVATE);
         loafProduct();
 
-        list_product.setNestedScrollingEnabled(false);
+
+        ;
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getContext(), R.dimen.item_offset);
         list_product.addItemDecoration(itemDecoration);
 
@@ -90,8 +96,15 @@ public class SearchFragment extends Fragment {
                         }
                     }
                 }
-                ProductApdater.productAdap adap = new ProductApdater.productAdap(product, getContext());
-                list_product.setAdapter(adap);
+                String user=pre.getString("type_user", "");
+                if (user.equals("user")) {
+                    ProductApdater.productAdap adap = new ProductApdater.productAdap(product, getContext());
+                    list_product.setAdapter(adap);
+                }
+                else {
+                    AdminProductApdater.productAdap adap = new AdminProductApdater.productAdap(product, getContext());
+                    list_product.setAdapter(adap);
+                }
 
 
 

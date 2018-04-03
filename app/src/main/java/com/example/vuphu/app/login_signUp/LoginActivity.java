@@ -1,5 +1,6 @@
 package com.example.vuphu.app.login_signUp;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
@@ -36,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     SignUpToken token ;
 
     private Button login ;
+    private ProgressDialog progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,8 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = getIntent() ;
 
         login = findViewById(R.id.btn_signin);
+        progressBar = new ProgressDialog(this);
+        progressBar.setMessage("Đang xử lí...");
 
         mail = intent.getStringExtra("email");
         pass = intent.getStringExtra("pass");
@@ -62,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.i("mail",emailInput.getText().toString());
                 Log.i("pass",passInput.getText().toString());
+                progressBar.show();
                     signIn(emailInput.getText().toString(),passInput.getText().toString());
             }
         });
@@ -93,14 +99,17 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 edit.putString("type_user", "admin");
                 edit.commit();
+                progressBar.hide();
                 finish();
             } else {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 edit.putString("type_user", "user");
                 edit.commit();
+                progressBar.hide();
                 finish();
             }
         } else {
+            progressBar.hide();
             Toast.makeText(this, "incorrect email or password", Toast.LENGTH_SHORT).show();
         }
     }

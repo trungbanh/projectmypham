@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class Product implements Serializable {
 
     private Integer price ;
-    private String id;
+    private String _id;
     private String productId;
     private String name ;
     private Integer quatity ;
@@ -17,7 +17,6 @@ public class Product implements Serializable {
     private String productImage ;
     private String type ;
     private Integer v;
-
 
     public Product() {
     }
@@ -30,11 +29,11 @@ public class Product implements Serializable {
     }
 
     public String getId() {
-        return id;
+        return _id;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this._id = id;
     }
 
     public String getProductId() {
