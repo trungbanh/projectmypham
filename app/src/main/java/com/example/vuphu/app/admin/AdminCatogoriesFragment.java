@@ -1,6 +1,8 @@
 package com.example.vuphu.app.admin;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -65,6 +67,13 @@ public class AdminCatogoriesFragment extends Fragment {
 
         product = new ArrayList<>();
 
+        FloatingActionButton fab = v.findViewById(R.id.fab_add);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), AdminAddProductActivity.class));
+            }
+        });
         loafProduct();
 
         list_product = v.findViewById(R.id.list_admin_product);
