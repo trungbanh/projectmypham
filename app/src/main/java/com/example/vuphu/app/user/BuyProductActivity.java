@@ -13,4 +13,5 @@ public class BuyProductActivity extends AppCompatActivity {
         setContentView(R.layout.activity_buy_product);
         // /order <productid,quantity>
     }
+
 }
