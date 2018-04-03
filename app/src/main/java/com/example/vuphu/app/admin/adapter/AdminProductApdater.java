@@ -13,13 +13,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.vuphu.app.AcsynHttp.NetworkConst;
+import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
 import com.example.vuphu.app.R;
 import com.example.vuphu.app.admin.AdminEditProductActivity;
 import com.example.vuphu.app.object.Product;
-import com.squareup.picasso.Picasso;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by vuphu on 3/31/2018.
@@ -62,7 +66,7 @@ public class AdminProductApdater {
         @Override
         public void onBindViewHolder(productViewHolder holder, final int position) {
             holder.tv_name.setText(list.get(position).getName());
-            holder.tv_price.setText(""+list.get(position).getPrice());
+            holder.tv_price.setText(list.get(position).getPrice());
 
             holder.btn_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -74,7 +78,12 @@ public class AdminProductApdater {
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                                 public void onClick(DialogInterface dialog, int whichButton) {
-                                    Toast.makeText(context, "Yaay", Toast.LENGTH_SHORT).show();
+                                    AsyncHttpApi.get("/products/", null,new JsonHttpResponseHandler(){
+                                        @Override
+                                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                            super.onSuccess(statusCode, headers, response);
+                                        }
+                                    });
                                 }})
                             .setNegativeButton(android.R.string.no, null).show();
                 }
@@ -87,8 +96,6 @@ public class AdminProductApdater {
                     context.startActivity(intent);
                 }
             });
-            Picasso.get().load(NetworkConst.network+"/"+list.get(position).getProductImage().replace("\\","/")).error(R.drawable.ic_terrain_black_24dp).placeholder(R.drawable.mypham).into(holder.img_product);
-
         }
 
         @Override
