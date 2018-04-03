@@ -13,19 +13,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.model.GlideUrl;
 import com.example.vuphu.app.AcsynHttp.NetworkConst;
 import com.example.vuphu.app.R;
 import com.example.vuphu.app.object.Product;
 import com.example.vuphu.app.user.DetailProductActivity;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+
 import java.util.ArrayList;
 
 /**

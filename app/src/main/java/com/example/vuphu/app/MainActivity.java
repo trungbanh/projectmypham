@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
 import com.example.vuphu.app.admin.AdminCatogoriesFragment;
 import com.example.vuphu.app.admin.AdminOrdersFragment;
 import com.example.vuphu.app.admin.AdminUserFragment;
@@ -22,7 +23,12 @@ import com.example.vuphu.app.object.users;
 import com.example.vuphu.app.user.AddMoneyFragment;
 import com.example.vuphu.app.user.CatogriesFragment;
 import com.example.vuphu.app.user.ProfileFragment;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+
+import org.json.JSONArray;
+
+import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -41,6 +47,31 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
+
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                AsyncHttpApi.get("/products/"+query,null,new JsonHttpResponseHandler(){
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                        super.onSuccess(statusCode, headers, response);
+                        android.support.v4.app.FragmentTransaction transaction;
+                        transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.content, SearchFragment.newInstance(response)).addToBackStack(null);
+                        transaction.commit();
+
+                    }
+                });
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -144,7 +175,6 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             finish();
             return true;
-
         }else
         if (id == R.id.nav_logout) {
             edit.clear();

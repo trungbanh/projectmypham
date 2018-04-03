@@ -73,6 +73,7 @@ public class AdminOrdersAdapter {
 
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     //Lap trinh o day
+                                    //product/delete/<idproduct>
                                     Toast.makeText(context, "Yaay", Toast.LENGTH_SHORT).show();
                                 }})
                             .setNegativeButton(android.R.string.no, null).show();

@@ -27,6 +27,7 @@ public class AdminEditProductActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        //put<json>
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

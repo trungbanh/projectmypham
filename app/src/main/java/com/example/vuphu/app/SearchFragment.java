@@ -1,8 +1,10 @@
-package com.example.vuphu.app.user;
+package com.example.vuphu.app;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
-import com.example.vuphu.app.ItemOffsetDecoration;
-import com.example.vuphu.app.R;
 import com.example.vuphu.app.object.Product;
 import com.example.vuphu.app.user.adapter.ProductApdater;
 import com.example.vuphu.app.user.adapter.ViewPagerAdapter;
@@ -27,18 +27,21 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 
 
-public class CatogriesFragment extends Fragment {
+public class SearchFragment extends Fragment {
 
-
-    private ViewPager viewPager;
     private RecyclerView list_product;
     private ArrayList<Product> product;
-
-    public CatogriesFragment() {
-
+    private JSONArray jsonArray;
+    @SuppressLint("ValidFragment")
+    public SearchFragment(JSONArray jsonArray) {
+        this.jsonArray = jsonArray;
     }
-    public static CatogriesFragment newInstance() {
-        CatogriesFragment fragment = new CatogriesFragment();
+
+    public SearchFragment() {
+    }
+
+    public static SearchFragment newInstance(JSONArray jsonArray) {
+        SearchFragment fragment = new SearchFragment(jsonArray);
         Bundle args = new Bundle();
 
         fragment.setArguments(args);
@@ -55,15 +58,13 @@ public class CatogriesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-       View v= inflater.inflate(R.layout.fragment_catogries, container, false);
-
-        list_product = v.findViewById(R.id.list_product);
+        View v = inflater.inflate(R.layout.fragment_search, container, false);
+        list_product = v.findViewById(R.id.list_search_product);
         list_product.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
         list_product.setLayoutManager(gridLayoutManager);
 
         product = new ArrayList<>();
-        viewPager = v.findViewById(R.id.viewPager);
 
         loafProduct();
 
@@ -71,19 +72,14 @@ public class CatogriesFragment extends Fragment {
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getContext(), R.dimen.item_offset);
         list_product.addItemDecoration(itemDecoration);
 
-
         return v;
     }
 
-
     public void loafProduct () {
-        AsyncHttpApi.get("/products/", null, new JsonHttpResponseHandler() {
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
 
                 Gson gson = new Gson();
-                JSONArray jArray = response;
+                JSONArray jArray = jsonArray;
                 if (jArray != null) {
                     for (int i=0;i<jArray.length();i++){
                         try {
@@ -96,15 +92,10 @@ public class CatogriesFragment extends Fragment {
                 }
                 ProductApdater.productAdap adap = new ProductApdater.productAdap(product, getContext());
                 list_product.setAdapter(adap);
-                ViewPagerAdapter adapter = new ViewPagerAdapter(getContext());
-                viewPager.setAdapter(adapter);
+
 
 
             }
-        });
-    }
 
 
 }
-
-
