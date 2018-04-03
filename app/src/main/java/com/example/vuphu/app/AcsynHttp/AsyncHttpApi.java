@@ -6,7 +6,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 public class AsyncHttpApi {
-    private static final String BASE_URL = "http://10.0.2.2:3300/";
+    private static final String BASE_URL = NetworkConst.network;
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 

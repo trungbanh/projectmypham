@@ -77,7 +77,7 @@ public class CatogriesFragment extends Fragment {
 
 
     private void loafProduct () {
-        AsyncHttpApi.get("/products", null, new JsonHttpResponseHandler() {
+        AsyncHttpApi.get("/products/", null, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {

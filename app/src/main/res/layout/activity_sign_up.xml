@@ -81,6 +81,7 @@
                     android:layout_margin="10dp"
                     android:elevation="8dp"
                     android:onClick="signUp"
+
                     android:translationZ="8dp"
                     android:fontFamily="sans-serif-light"
                     android:background="@drawable/btn_bg"

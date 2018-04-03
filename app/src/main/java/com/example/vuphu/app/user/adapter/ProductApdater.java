@@ -6,15 +6,20 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.example.vuphu.app.AcsynHttp.NetworkConst;
 import com.example.vuphu.app.R;
 import com.example.vuphu.app.object.Product;
 import com.example.vuphu.app.user.DetailProductActivity;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -72,9 +77,9 @@ public class ProductApdater {
                 }
             });
 
-
-            holder.img_product.setImageBitmap(showImage ("http://10.0.2.2:3300"+list.get(position).getProductImage()));
             Log.i("image",list.get(position).getProductImage());
+//            holder.img_product.setImageBitmap(showImage ("http://192.168.28.101:3000/"+list.get(position).getProductImage().replace("\\","/")));
+            Picasso.get().load(NetworkConst.network+"/"+list.get(position).getProductImage().replace("\\","/")).error(R.drawable.ic_terrain_black_24dp).placeholder(R.drawable.mypham).into(holder.img_product);
         }
 
         @Override
@@ -82,31 +87,31 @@ public class ProductApdater {
             return list.size();
         }
 
-        private Bitmap showImage(String iurl) {
-            URL url = null;
-
-            Bitmap bitmap = null;
-            try {
-                url = new URL(iurl);
-
-                HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
-
-                httpConn.connect();
-                int resCode = httpConn.getResponseCode();
-
-                if (resCode == HttpURLConnection.HTTP_OK) {
-                    InputStream in = httpConn.getInputStream();
-                    bitmap = BitmapFactory.decodeStream(in);
-
-                    return bitmap;
-                }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
+//        private Bitmap showImage(String iurl) {
+//            URL url = null;
+//
+//            Bitmap bitmap = null;
+//            try {
+//                url = new URL(iurl);
+//
+//                HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+//
+//                httpConn.connect();
+//                int resCode = httpConn.getResponseCode();
+//
+//                if (resCode == HttpURLConnection.HTTP_OK) {
+//                    InputStream in = httpConn.getInputStream();
+//                    bitmap = BitmapFactory.decodeStream(in);
+//
+//                    return bitmap;
+//                }
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            return bitmap;
+//        }
     }
 
 

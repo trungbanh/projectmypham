@@ -33,9 +33,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private SignUpToken token ;
 
-    SharedPreferences pre=getSharedPreferences("mytoken", MODE_PRIVATE);
 
-    SharedPreferences.Editor edit=pre.edit();
 
 
 
@@ -64,7 +62,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void postResquest(RequestParams params) {
-        AsyncHttpApi.post("user/signup",params,new JsonHttpResponseHandler() {
+        AsyncHttpApi.post("/user/signup",params,new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
@@ -72,8 +70,7 @@ public class SignUpActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 token = gson.fromJson(json,SignUpToken.class);
 
-                edit.putString("token",token.getToken());
-                edit.commit();
+
                 //Log.i("messager",token.getMessage());
 
             }

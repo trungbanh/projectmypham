@@ -1,5 +1,6 @@
 package com.example.vuphu.app;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 import com.example.vuphu.app.admin.AdminCatogoriesFragment;
 import com.example.vuphu.app.admin.AdminOrdersFragment;
 import com.example.vuphu.app.admin.AdminUserFragment;
+import com.example.vuphu.app.login_signUp.LoginActivity;
 import com.example.vuphu.app.object.users;
 import com.example.vuphu.app.user.AddMoneyFragment;
 import com.example.vuphu.app.user.CatogriesFragment;
@@ -136,8 +138,21 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Fragment temp = null;
+        if (id == R.id.nav_admin_logout) {
+            edit.clear();
+            edit.apply();
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            finish();
+            return true;
+
+        }else
         if (id == R.id.nav_logout) {
-            // Handle the camera action
+            edit.clear();
+            edit.apply();
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            finish();
+            return true;
+
         } else if (id == R.id.nav_profile) {
             users u = new users();
             temp = ProfileFragment.newInstance(u);

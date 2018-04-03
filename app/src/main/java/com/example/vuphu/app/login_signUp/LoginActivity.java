@@ -52,14 +52,17 @@ public class LoginActivity extends AppCompatActivity {
         pass = intent.getStringExtra("pass");
 
         init();
+        if (!pre.getString("token","").isEmpty() && !pre.getString("type_user","").isEmpty()){
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            finish();
+        }
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i("mail",emailInput.getText().toString());
                 Log.i("pass",passInput.getText().toString());
-
-                signIn(emailInput.getText().toString(),passInput.getText().toString());
+                    signIn(emailInput.getText().toString(),passInput.getText().toString());
             }
         });
 
@@ -90,10 +93,12 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 edit.putString("type_user", "admin");
                 edit.commit();
+                finish();
             } else {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 edit.putString("type_user", "user");
                 edit.commit();
+                finish();
             }
         } else {
             Toast.makeText(this, "incorrect email or password", Toast.LENGTH_SHORT).show();
@@ -105,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private String postSignIn(RequestParams params) {
-        AsyncHttpApi.post("user/login",params,new JsonHttpResponseHandler() {
+        AsyncHttpApi.post("/user/login",params,new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
@@ -115,6 +120,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 Log.i("checkToken",token.getToken());
                 edit.putString("token",token.getToken());
+                edit.putString("message",token.getMessage());
                 edit.commit();
                 //Log.i("messager",token.getMessage());
 

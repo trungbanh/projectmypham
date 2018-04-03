@@ -15,8 +15,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.vuphu.app.AcsynHttp.NetworkConst;
 import com.example.vuphu.app.R;
 import com.example.vuphu.app.object.Product;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +28,7 @@ import java.net.URL;
 
 public class DetailProductActivity extends AppCompatActivity {
 
-    private TextView desprition ;
+    private TextView desprition, price ;
 
     private ImageView imageView;
 
@@ -48,7 +50,10 @@ public class DetailProductActivity extends AppCompatActivity {
 
 
         imageView = findViewById(R.id.img_detail_product);
-        imageView.setImageBitmap(showImage(title.getProductImage()));
+        Picasso.get().load(NetworkConst.network+"/"+title.getProductImage().replace("\\","/")).error(R.drawable.ic_terrain_black_24dp).placeholder(R.drawable.mypham).into(imageView);
+
+        price = findViewById(R.id.tv_price);
+        price.setText("Giá: "+title.getPrice()+" đ");
 
         desprition = findViewById(R.id.tv_description);
 
