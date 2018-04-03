@@ -13,9 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.vuphu.app.AcsynHttp.NetworkConst;
 import com.example.vuphu.app.R;
 import com.example.vuphu.app.admin.AdminEditProductActivity;
 import com.example.vuphu.app.object.Product;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -60,7 +62,7 @@ public class AdminProductApdater {
         @Override
         public void onBindViewHolder(productViewHolder holder, final int position) {
             holder.tv_name.setText(list.get(position).getName());
-            holder.tv_price.setText(list.get(position).getPrice());
+            holder.tv_price.setText(""+list.get(position).getPrice());
 
             holder.btn_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -85,6 +87,8 @@ public class AdminProductApdater {
                     context.startActivity(intent);
                 }
             });
+            Picasso.get().load(NetworkConst.network+"/"+list.get(position).getProductImage().replace("\\","/")).error(R.drawable.ic_terrain_black_24dp).placeholder(R.drawable.mypham).into(holder.img_product);
+
         }
 
         @Override

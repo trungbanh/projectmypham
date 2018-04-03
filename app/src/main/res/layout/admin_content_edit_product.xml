@@ -39,7 +39,6 @@
                 android:orientation="vertical"
                 android:padding="8dp"
                 android:layout_height="wrap_content">
-
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -50,10 +49,10 @@
                         android:layout_marginBottom="4dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="16dp"
-                        android:text="Sản phẩm A"
-                        android:hint="Tên sản phẩm"
+                        android:text="jdhjghds55f454sf"
+                        android:hint="Mã sản phẩm"
                         android:inputType="text"
-                        android:id="@+id/edt_admin_product"
+                        android:id="@+id/edt_admin_id_product"
                         android:textColor="@android:color/black"
                         android:fontFamily="sans-serif"
                         android:textSize="20sp"/>
@@ -68,10 +67,56 @@
                         android:layout_marginBottom="4dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="16dp"
+                        android:text="Sản phẩm A"
+                        android:hint="Tên sản phẩm"
+                        android:inputType="text"
+                        android:id="@+id/edt_admin_name_product"
+                        android:textColor="@android:color/black"
+                        android:fontFamily="sans-serif"
+                        android:textSize="20sp"/>
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/spin_admin_type_product">
+
+                    </Spinner>
+            </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
                         android:text="200.000"
                         android:inputType="numberDecimal"
                         android:hint="Giá sản phẩm"
                         android:id="@+id/edt_admin_product_price"
+                        android:textColor="@android:color/black"
+                        android:fontFamily="sans-serif"
+                        android:textSize="20sp"/>
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:text="1000"
+                        android:hint="Số lượng"
+                        android:inputType="numberDecimal"
+                        android:id="@+id/edt_admin_quantity_product"
                         android:textColor="@android:color/black"
                         android:fontFamily="sans-serif"
                         android:textSize="20sp"/>
