@@ -1,9 +1,14 @@
 package com.example.vuphu.app.AcsynHttp;
 
+import android.content.Context;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.HttpEntity;
 
 public class AsyncHttpApi {
     private static final String BASE_URL = NetworkConst.network;
@@ -17,8 +22,8 @@ public class AsyncHttpApi {
     public static void post(String url, RequestParams params, JsonHttpResponseHandler responseHandler) {
         client.post(getAbsoluteUrl(url), params, responseHandler);
     }
-    public static void put(String url, RequestParams params, JsonHttpResponseHandler responseHandler) {
-        client.put(getAbsoluteUrl(url), params, responseHandler);
+    public static void put(Context context, String url, RequestParams params, JsonHttpResponseHandler responseHandler) {
+        client.put(context,url,params, responseHandler);
     }
 
 
