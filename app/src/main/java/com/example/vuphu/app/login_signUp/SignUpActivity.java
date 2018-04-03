@@ -1,6 +1,7 @@
 package com.example.vuphu.app.login_signUp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +32,12 @@ public class SignUpActivity extends AppCompatActivity {
     private String passText ;
 
     private SignUpToken token ;
+
+    SharedPreferences pre=getSharedPreferences("mytoken", MODE_PRIVATE);
+
+    SharedPreferences.Editor edit=pre.edit();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +71,10 @@ public class SignUpActivity extends AppCompatActivity {
                 String json = response.toString();
                 Gson gson = new Gson();
                 token = gson.fromJson(json,SignUpToken.class);
-                Log.i("messager",token.getMessage());
+
+                edit.putString("token",token.getToken());
+                edit.commit();
+                //Log.i("messager",token.getMessage());
 
             }
         });

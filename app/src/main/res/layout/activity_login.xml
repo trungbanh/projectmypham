@@ -74,12 +74,11 @@
                         android:pointerIcon="none" />
                 </android.support.design.widget.TextInputLayout>
                 <Button
-                    android:id="@+id/btn_signIn"
+                    android:id="@+id/btn_signin"
                     android:layout_width="120dp"
                     android:layout_height="50dp"
                     android:layout_margin="10dp"
                     android:elevation="8dp"
-                    android:onClick="signIn"
                     android:translationZ="8dp"
                     android:fontFamily="sans-serif-light"
                     android:background="@drawable/btn_bg"

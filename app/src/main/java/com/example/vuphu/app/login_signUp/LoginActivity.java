@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -31,6 +33,10 @@ public class LoginActivity extends AppCompatActivity {
     private String mail ;
     private String pass ;
 
+    SignUpToken token ;
+
+    private Button login ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,10 +46,22 @@ public class LoginActivity extends AppCompatActivity {
 
         Intent intent = getIntent() ;
 
+        login = findViewById(R.id.btn_signin);
+
         mail = intent.getStringExtra("email");
         pass = intent.getStringExtra("pass");
 
         init();
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("mail",emailInput.getText().toString());
+                Log.i("pass",passInput.getText().toString());
+
+                signIn(emailInput.getText().toString(),passInput.getText().toString());
+            }
+        });
 
 
     }
@@ -59,9 +77,13 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void signIn(View view) {
+    public void signIn (String mail,String pass){
 
-        if (postSignIn().equals("Auth successful")) {
+        RequestParams params = new RequestParams();
+        params.put("email",mail);
+        params.put("password",pass);
+
+        if (!postSignIn(params).isEmpty()) {
 
             if (mail.equals("admin@admin.com")) {
 
@@ -82,22 +104,29 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
     }
 
-    private String postSignIn() {
-        RequestParams params = new RequestParams();
-        final SignUpToken[] token = new SignUpToken[1];
-
-        AsyncHttpApi.post("/user/login",params,new JsonHttpResponseHandler() {
+    private String postSignIn(RequestParams params) {
+        AsyncHttpApi.post("user/login",params,new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-                String json = response.toString();
 
-                Gson gson = new Gson() ;
-                token[0] = gson.fromJson(json,SignUpToken.class);
+                String json = response.toString();
+                Gson gson = new Gson();
+                token = gson.fromJson(json,SignUpToken.class);
+
+                Log.i("checkToken",token.getToken());
+                edit.putString("token",token.getToken());
+                edit.commit();
+                //Log.i("messager",token.getMessage());
 
             }
-        });
 
-        return token[0].getToken().toString();
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e("error",throwable.getMessage());
+            }
+        });
+        String token = pre.getString("token","");
+        Toast.makeText(this, token, Toast.LENGTH_SHORT).show();
+        return token;
     }
 }
