@@ -12,21 +12,35 @@ import cz.msebera.android.httpclient.HttpEntity;
 
 public class AsyncHttpApi {
     private static final String BASE_URL = NetworkConst.network;
-
     private static AsyncHttpClient client = new AsyncHttpClient();
 
-    public static void get(String url, RequestParams params, JsonHttpResponseHandler responseHandler) {
+
+    public static void get(String token,String url, RequestParams params, JsonHttpResponseHandler responseHandler) {
+        client.addHeader("Authorization","Bearer "+token);
+        client.addHeader("Content-Type","application/x-www-form-urlencoded");
         client.get(getAbsoluteUrl(url), params, responseHandler);
     }
 
-    public static void post(String url, RequestParams params, JsonHttpResponseHandler responseHandler) {
+    public static void post(String token,String url, RequestParams params, JsonHttpResponseHandler responseHandler) {
+        client.addHeader("Authorization","Bearer "+token);
+        client.addHeader("Content-Type","application/x-www-form-urlencoded");
         client.post(getAbsoluteUrl(url), params, responseHandler);
     }
-    public static void put(Context context, String url, RequestParams params, JsonHttpResponseHandler responseHandler) {
-        client.put(context,url,params, responseHandler);
+    public static void put (String token, String url, RequestParams params, JsonHttpResponseHandler responseHandler){
+        client.addHeader("Authorization","Bearer "+token);
+        client.addHeader("Content-Type","multipart/form-data; boundary=MultipartBoundry");
+        client.put(getAbsoluteUrl(url),params, responseHandler);
     }
-    public static void delete(Context context, String url,Header[] headers, RequestParams params, JsonHttpResponseHandler responseHandler){
-        client.delete(context,url,headers,responseHandler);
+    public static void delete(String token, String url, JsonHttpResponseHandler responseHandler){
+        client.addHeader("Authorization","Bearer "+token);
+        client.addHeader("Content-Type","application/x-www-form-urlencoded");
+        client.delete(getAbsoluteUrl(url),responseHandler);
+    }
+
+    public static void post_admin_product(String token,String url, RequestParams params, JsonHttpResponseHandler responseHandler) {
+        client.addHeader("Authorization","Bearer "+token);
+        client.addHeader("Content-Type","multipart/form-data; boundary=MultipartBoundry");
+        client.post(getAbsoluteUrl(url), params, responseHandler);
     }
 
 

@@ -3,6 +3,7 @@ package com.example.vuphu.app.admin;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -17,19 +18,28 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
 import com.example.vuphu.app.AcsynHttp.NetworkConst;
 import com.example.vuphu.app.R;
 import com.example.vuphu.app.object.Product;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.io.FileDescriptor;
 import java.io.IOException;
+
+import cz.msebera.android.httpclient.Header;
 
 public class AdminEditProductActivity extends AppCompatActivity {
 
 
-    private EditText edt_name_product, edt_price, edt_desc, edt_quantity, edt_id;
+    private EditText edt_name_product, edt_price, edt_desc, edt_quantity, edt_id, edt_type;
     private EditText type_product;
     private ImageView img_product;
     private Product product;
@@ -37,6 +47,9 @@ public class AdminEditProductActivity extends AppCompatActivity {
     private Button btn_update;
     private static final int READ_REQUEST_CODE = 42;
 
+    private SharedPreferences pre;
+
+    protected   Uri uri;
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +60,8 @@ public class AdminEditProductActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        pre =getSharedPreferences("data", MODE_PRIVATE);
+
         init();
         Intent intent = getIntent();
 
@@ -75,6 +90,7 @@ public class AdminEditProductActivity extends AppCompatActivity {
         img_product = findViewById(R.id.img_admin_edit_product);
         btn_update_img = findViewById(R.id.btn_admin_edit_image);
         btn_update = findViewById(R.id.btn_admin_edit_product);
+        edt_type = findViewById(R.id.edt_admin_type_product);
     }
 
     private void setDataType() {
@@ -86,7 +102,10 @@ public class AdminEditProductActivity extends AppCompatActivity {
         edt_quantity.setText("" + product.getQuatity());
         type_product.setText(product.getType());
         edt_desc.setText(product.getDescription());
-        Picasso.get().load(NetworkConst.network + "/" + product.getProductImage().replace("\\", "/")).error(R.drawable.ic_terrain_black_24dp).placeholder(R.drawable.mypham).into(img_product);
+        edt_type.setText(product.getType());
+        Picasso.get().load(NetworkConst.network + "/" + product.getProductImage()
+                .replace("\\", "/")).error(R.drawable.ic_terrain_black_24dp)
+                .placeholder(R.drawable.mypham).into(img_product);
 
         btn_update_img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +117,11 @@ public class AdminEditProductActivity extends AppCompatActivity {
         btn_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                update();
+                try {
+                    update();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -135,7 +158,7 @@ public class AdminEditProductActivity extends AppCompatActivity {
             // Instead, a URI to that document will be contained in the return intent
             // provided to this method as a parameter.
             // Pull that URI using resultData.getData().
-            Uri uri = null;
+
             if (resultData != null) {
                 uri = resultData.getData();
                 Log.i("TAG", "Uri: " + uri.toString());
@@ -162,7 +185,25 @@ public class AdminEditProductActivity extends AppCompatActivity {
 
     }
 
-    private void update() {
+    private void update() throws IOException {
 
+        RequestParams requestParams = new RequestParams();
+        requestParams.put("name", edt_name_product.getText());
+        requestParams.put("price",Integer.parseInt(edt_price.getText().toString()));
+        requestParams.put("quatity",Integer.parseInt(edt_quantity.getText().toString()));
+        requestParams.put("description",edt_desc.getText());
+        requestParams.put("type",edt_type.getText());
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        getBitmapFromUri(uri).compress(Bitmap.CompressFormat.PNG,100,stream);
+        byte[] byteArray = stream.toByteArray();
+        getBitmapFromUri(uri).recycle();
+        requestParams.put("productImage",byteArray);
+        AsyncHttpApi.put(pre.getString("token",null),"/products/"+product.getId(),requestParams, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                Toast.makeText(AdminEditProductActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

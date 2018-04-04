@@ -1,6 +1,7 @@
 package com.example.vuphu.app.admin;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -28,11 +29,14 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 public class AdminCatogoriesFragment extends Fragment {
 
     private ArrayList<Product> product;
     private RecyclerView list_product;
+    private SharedPreferences pre;
     public AdminCatogoriesFragment() {
         // Required empty public constructor
     }
@@ -66,7 +70,7 @@ public class AdminCatogoriesFragment extends Fragment {
         list.add(new Product("A","B","20.000"));*/
 
         product = new ArrayList<>();
-
+        pre =getActivity().getSharedPreferences("data", MODE_PRIVATE);
         FloatingActionButton fab = v.findViewById(R.id.fab_add);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,13 +88,11 @@ public class AdminCatogoriesFragment extends Fragment {
         list_product.setNestedScrollingEnabled(false);
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getContext(), R.dimen.item_offset);
         list_product.addItemDecoration(itemDecoration);
-        AdminProductApdater.productAdap adap = new AdminProductApdater.productAdap(product, getContext());
-        list_product.setAdapter(adap);
         return v;
     }
 
     private void loafProduct () {
-        AsyncHttpApi.get("/products/", null, new JsonHttpResponseHandler() {
+        AsyncHttpApi.get(pre.getString("token",""),"/products/", null, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -107,13 +109,17 @@ public class AdminCatogoriesFragment extends Fragment {
                         }
                     }
                 }
-                AdminProductApdater.productAdap adap = new AdminProductApdater.productAdap(product, getContext());
+                AdminProductApdater.productAdap adap = new AdminProductApdater.productAdap(product, getContext(),pre.getString("token","") );
                 list_product.setAdapter(adap);
+                adap.notifyDataSetChanged();
 
             }
         });
     }
 
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }

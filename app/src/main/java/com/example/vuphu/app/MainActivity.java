@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
 import com.example.vuphu.app.admin.AdminCatogoriesFragment;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-                AsyncHttpApi.get("/products/search/"+query,null,new JsonHttpResponseHandler(){
+                AsyncHttpApi.get(pre.getString("token",""),"/products/search/"+query,null,new JsonHttpResponseHandler(){
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                         super.onSuccess(statusCode, headers, response);
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                AsyncHttpApi.get("/products/search/"+newText,null,new JsonHttpResponseHandler(){
+                AsyncHttpApi.get(pre.getString("token",""),"/products/search/"+newText,null,new JsonHttpResponseHandler(){
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                         super.onSuccess(statusCode, headers, response);
@@ -102,14 +103,14 @@ public class MainActivity extends AppCompatActivity
             setTitle("Danh mục sản phẩm");
             android.support.v4.app.FragmentTransaction transaction;
             transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.content, AdminCatogoriesFragment.newInstance()).addToBackStack(null);
+            transaction.replace(R.id.content, AdminCatogoriesFragment.newInstance());
             transaction.commit();
         }
         else {
             navigationView.inflateMenu(R.menu.activity_main_drawer);
             android.support.v4.app.FragmentTransaction transaction;
             transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.content, CatogriesFragment.newInstance()).addToBackStack(null);
+            transaction.replace(R.id.content, CatogriesFragment.newInstance());
             transaction.commit();
         }
         navigationView.setNavigationItemSelectedListener(this);
@@ -127,42 +128,18 @@ public class MainActivity extends AppCompatActivity
         if (searchView.isSearchOpen()) {
             searchView.closeSearch();
         }
-        else {
-            super.onBackPressed();
-        }
-//        if (fm.getFragments().size() <= 1) {
-//            applyExit();
-//        } else {
-//            for (Fragment frag : fm.getFragments()) {
-//                if (frag == null) {
-//                    applyExit();
-//                    return;
-//                }
-//                if (frag.isVisible()) {
-//                    FragmentManager childFm = frag.getChildFragmentManager();
-//                    if (childFm.getFragments() == null) {
-//                        super.onBackPressed();
-//                        return;
-//                    }
-//                    if (childFm.getBackStackEntryCount() > 0) {
-//                        childFm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//                        return;
-//                    } else {
-//                        fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//                        return;
-//                    }
-//                }
-//            }
-//        }
+        else
+            applyExit();
+
     }
-//    private void applyExit() {
-//        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
-//            finish();
-//        } else {
-//            Toast.makeText(this,"Press Again to exit", Toast.LENGTH_LONG).show();
-//        }
-//        mBackPressed = System.currentTimeMillis();
-//    }
+    private void applyExit() {
+        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
+            finish();
+        } else {
+            Toast.makeText(this,"Press Again to exit", Toast.LENGTH_LONG).show();
+        }
+        mBackPressed = System.currentTimeMillis();
+    }
 
 
     @Override
@@ -218,7 +195,7 @@ public class MainActivity extends AppCompatActivity
             temp = AdminUserFragment.newInstance();
         }
         android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.content,temp).addToBackStack(null);;
+        transaction.replace(R.id.content,temp);;
         transaction.commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

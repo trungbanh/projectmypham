@@ -102,7 +102,7 @@ public class SearchFragment extends Fragment {
                     list_product.setAdapter(adap);
                 }
                 else {
-                    AdminProductApdater.productAdap adap = new AdminProductApdater.productAdap(product, getContext());
+                    AdminProductApdater.productAdap adap = new AdminProductApdater.productAdap(product, getContext(),pre.getString("token",""));
                     list_product.setAdapter(adap);
                 }
 

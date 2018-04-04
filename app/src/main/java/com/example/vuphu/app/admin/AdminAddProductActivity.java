@@ -3,6 +3,7 @@ package com.example.vuphu.app.admin;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -17,25 +18,36 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
 import com.example.vuphu.app.AcsynHttp.NetworkConst;
 import com.example.vuphu.app.R;
 import com.example.vuphu.app.object.Product;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.io.FileDescriptor;
 import java.io.IOException;
+
+import cz.msebera.android.httpclient.Header;
 
 public class AdminAddProductActivity extends AppCompatActivity {
 
 
-    private EditText edt_name_product, edt_price, edt_desc,edt_quantity,edt_id;
-    private EditText type_product;
+    private EditText edt_name_product, edt_price, edt_desc,edt_quantity;
+    private EditText edt_type;
     private ImageView img_product;
 
     private FloatingActionButton btn_add_img;
     private Button btn_add;
     private static final int READ_REQUEST_CODE = 42;
+    private SharedPreferences pre;
+    protected   Uri uri;
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +59,7 @@ public class AdminAddProductActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         setTitle("Add product");
+        pre =getSharedPreferences("data", MODE_PRIVATE);
         init();
         setDataType();
     }
@@ -67,7 +80,7 @@ public class AdminAddProductActivity extends AppCompatActivity {
         edt_quantity = findViewById(R.id.edt_admin_add_quantity_product);
         btn_add_img =findViewById(R.id.btn_admin_add_image);
         btn_add = findViewById(R.id.btn_admin_add_product);
-        type_product = findViewById(R.id.edt_admin_add_type_product);
+        edt_type = findViewById(R.id.edt_admin_add_type_product);
         img_product = findViewById(R.id.img_admin_add_product);
     }
 
@@ -83,7 +96,11 @@ public class AdminAddProductActivity extends AppCompatActivity {
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                add();
+                try {
+                    add();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
 
@@ -122,7 +139,7 @@ public class AdminAddProductActivity extends AppCompatActivity {
             // Instead, a URI to that document will be contained in the return intent
             // provided to this method as a parameter.
             // Pull that URI using resultData.getData().
-            Uri uri = null;
+
             if (resultData != null) {
                 uri = resultData.getData();
                 Log.i("TAG", "Uri: " + uri.toString());
@@ -149,7 +166,25 @@ public class AdminAddProductActivity extends AppCompatActivity {
 
     }
 
-    private void add() {
+    private void add() throws IOException {
+        RequestParams requestParams = new RequestParams();
+        requestParams.put("name", edt_name_product.getText());
+        requestParams.put("price",Integer.parseInt(edt_price.getText().toString()));
+        requestParams.put("quatity",Integer.parseInt(edt_quantity.getText().toString()));
+        requestParams.put("description",edt_desc.getText());
+        requestParams.put("type",edt_type.getText());
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        getBitmapFromUri(uri).compress(Bitmap.CompressFormat.PNG,100,stream);
+        byte[] byteArray = stream.toByteArray();
+        getBitmapFromUri(uri).recycle();
+        requestParams.put("productImage",byteArray);
+        AsyncHttpApi.post_admin_product(pre.getString("token",null),"/products/",requestParams, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

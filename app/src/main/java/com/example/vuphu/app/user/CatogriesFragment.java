@@ -1,5 +1,6 @@
 package com.example.vuphu.app.user;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -77,7 +78,7 @@ public class CatogriesFragment extends Fragment {
 
 
     public void loafProduct () {
-        AsyncHttpApi.get("/products/", null, new JsonHttpResponseHandler() {
+        AsyncHttpApi.get(getActivity().getSharedPreferences("data", Context.MODE_PRIVATE).getString("token",""),"/products/", null, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {

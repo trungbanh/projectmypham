@@ -54,9 +54,11 @@ public class AdminProductApdater {
 
         ArrayList<Product> list;
         Context context;
-        public productAdap(ArrayList<Product> list, Context context) {
+        String token;
+        public productAdap(ArrayList<Product> list, Context context, String token) {
             this.list = list;
             this.context = context;
+            this.token = token;
         }
 
         @Override
@@ -81,10 +83,12 @@ public class AdminProductApdater {
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                                 public void onClick(DialogInterface dialog, int whichButton) {
-                                    AsyncHttpApi.get("/products/", null,new JsonHttpResponseHandler(){
+                                    AsyncHttpApi.delete(token,"/products/"+list.get(position).getId(),new JsonHttpResponseHandler(){
                                         @Override
                                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                             super.onSuccess(statusCode, headers, response);
+                                            list.remove(position);
+                                            productAdap.super.notifyDataSetChanged();
                                         }
                                     });
                                 }})
