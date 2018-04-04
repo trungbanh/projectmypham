@@ -2,6 +2,7 @@ package com.example.vuphu.app.admin;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -48,6 +49,7 @@ public class AdminAddProductActivity extends AppCompatActivity {
     private static final int READ_REQUEST_CODE = 42;
     private SharedPreferences pre;
     protected   Uri uri;
+    private ProgressDialog progressBar;
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,8 @@ public class AdminAddProductActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         setTitle("Add product");
+        progressBar = new ProgressDialog(this);
+        progressBar.setMessage("Đang xử lí...");
         pre =getSharedPreferences("data", MODE_PRIVATE);
         init();
         setDataType();
@@ -96,6 +100,7 @@ public class AdminAddProductActivity extends AppCompatActivity {
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.show();
                 try {
                     add();
                 } catch (IOException e) {
@@ -182,6 +187,7 @@ public class AdminAddProductActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
+                progressBar.hide();
                 Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
             }
         });

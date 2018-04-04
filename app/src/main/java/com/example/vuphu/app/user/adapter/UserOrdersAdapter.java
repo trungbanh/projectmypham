@@ -58,9 +58,9 @@ public class UserOrdersAdapter {
 
         @Override
         public void onBindViewHolder(orderViewHolder holder, final int position) {
-            holder.tv_name.setText(list.get(position).getUser());
-            holder.tv_price.setText(list.get(position).getPrice());
-            holder.tv_date.setText(list.get(position).getDate());
+            holder.tv_name.setText(list.get(position).getOwnerUid());
+            holder.tv_price.setText(list.get(position).getProduct());
+            holder.tv_date.setText(list.get(position).getQuatityBuy());
             holder.tv_status.setText(list.get(position).getStatus());
 
             // get <json> kem token

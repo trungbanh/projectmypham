@@ -8,32 +8,40 @@ import java.io.Serializable;
 
 public class order implements Serializable {
 
-    private String date, price, status, user;
+    private String ownerUid,product,quatityBuy,status, _id;
 
     public order() {
     }
 
-    public order(String date, String money, String status, String user) {
-        this.date = date;
-        this.price = money;
+    public order(String ownerUid, String product, String quatityBuy, String status) {
+        this.ownerUid = ownerUid;
+        this.product = product;
+        this.quatityBuy = quatityBuy;
         this.status = status;
-        this.user = user;
     }
 
-    public String getDate() {
-        return date;
+    public String getOwnerUid() {
+        return ownerUid;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setOwnerUid(String ownerUid) {
+        this.ownerUid = ownerUid;
     }
 
-    public String getPrice() {
-        return price;
+    public String getProduct() {
+        return product;
     }
 
-    public void setPrice(String money) {
-        this.price = money;
+    public void setProduct(String product) {
+        this.product = product;
+    }
+
+    public String getQuatityBuy() {
+        return quatityBuy;
+    }
+
+    public void setQuatityBuy(String quatityBuy) {
+        this.quatityBuy = quatityBuy;
     }
 
     public String getStatus() {
@@ -44,11 +52,11 @@ public class order implements Serializable {
         this.status = status;
     }
 
-    public String getUser() {
-        return user;
+    public String get_id() {
+        return _id;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void set_id(String _id) {
+        this._id = _id;
     }
 }

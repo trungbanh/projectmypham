@@ -26,9 +26,15 @@ public class AsyncHttpApi {
         client.addHeader("Content-Type","application/x-www-form-urlencoded");
         client.post(getAbsoluteUrl(url), params, responseHandler);
     }
+    public static void post_signUp(String url, RequestParams params, JsonHttpResponseHandler responseHandler) {
+        client.post(getAbsoluteUrl(url), params, responseHandler);
+    }
+    public static void post_logIn(String url, RequestParams params, JsonHttpResponseHandler responseHandler) {
+        client.post(getAbsoluteUrl(url), params, responseHandler);
+    }
     public static void put (String token, String url, RequestParams params, JsonHttpResponseHandler responseHandler){
         client.addHeader("Authorization","Bearer "+token);
-        client.addHeader("Content-Type","multipart/form-data; boundary=MultipartBoundry");
+        client.addHeader("Content-Type","application/x-www-form-urlencoded");
         client.put(getAbsoluteUrl(url),params, responseHandler);
     }
     public static void delete(String token, String url, JsonHttpResponseHandler responseHandler){

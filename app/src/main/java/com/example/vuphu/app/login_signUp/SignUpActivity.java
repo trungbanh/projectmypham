@@ -62,7 +62,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void postResquest(RequestParams params) {
-        AsyncHttpApi.post("/user/signup",params,new JsonHttpResponseHandler() {
+        AsyncHttpApi.post_signUp("/user/signup",params,new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 

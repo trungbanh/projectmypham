@@ -2,6 +2,7 @@ package com.example.vuphu.app.admin;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -46,7 +47,7 @@ public class AdminEditProductActivity extends AppCompatActivity {
     private FloatingActionButton btn_update_img;
     private Button btn_update;
     private static final int READ_REQUEST_CODE = 42;
-
+    private ProgressDialog progressBar;
     private SharedPreferences pre;
 
     protected   Uri uri;
@@ -61,7 +62,8 @@ public class AdminEditProductActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         pre =getSharedPreferences("data", MODE_PRIVATE);
-
+        progressBar = new ProgressDialog(this);
+        progressBar.setMessage("Đang xử lí...");
         init();
         Intent intent = getIntent();
 
@@ -117,6 +119,8 @@ public class AdminEditProductActivity extends AppCompatActivity {
         btn_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                progressBar.show();
                 try {
                     update();
                 } catch (IOException e) {
@@ -189,21 +193,24 @@ public class AdminEditProductActivity extends AppCompatActivity {
 
         RequestParams requestParams = new RequestParams();
         requestParams.put("name", edt_name_product.getText());
-        requestParams.put("price",Integer.parseInt(edt_price.getText().toString()));
+//        requestParams.put("price",Integer.parseInt(edt_price.getText().toString()));
         requestParams.put("quatity",Integer.parseInt(edt_quantity.getText().toString()));
         requestParams.put("description",edt_desc.getText());
         requestParams.put("type",edt_type.getText());
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        getBitmapFromUri(uri).compress(Bitmap.CompressFormat.PNG,100,stream);
-        byte[] byteArray = stream.toByteArray();
-        getBitmapFromUri(uri).recycle();
-        requestParams.put("productImage",byteArray);
-        AsyncHttpApi.put(pre.getString("token",null),"/products/"+product.getId(),requestParams, new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-                Toast.makeText(AdminEditProductActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//        getBitmapFromUri(uri).compress(Bitmap.CompressFormat.PNG,100,stream);
+//        byte[] byteArray = stream.toByteArray();
+//        getBitmapFromUri(uri).recycle();
+//        if (byteArray!= null) {
+//            requestParams.put("productImage", byteArray);
+            AsyncHttpApi.put(pre.getString("token", null), "/products/" + product.getId(), requestParams, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    super.onSuccess(statusCode, headers, response);
+                    progressBar.hide();
+                    Toast.makeText(AdminEditProductActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
+//        }
     }
 }

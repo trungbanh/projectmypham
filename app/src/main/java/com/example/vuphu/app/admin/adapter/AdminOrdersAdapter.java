@@ -12,11 +12,17 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
 import com.example.vuphu.app.R;
 import com.example.vuphu.app.admin.AdminEditProductActivity;
 import com.example.vuphu.app.object.order;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by vuphu on 4/1/2018.
@@ -45,9 +51,11 @@ public class AdminOrdersAdapter {
 
         ArrayList<order> list;
         Context context;
-        public orderAdap(ArrayList<order> list, Context context) {
+        String token;
+        public orderAdap(ArrayList<order> list, Context context, String token) {
             this.list = list;
             this.context = context;
+            this.token = token;
         }
 
         @Override
@@ -58,9 +66,11 @@ public class AdminOrdersAdapter {
 
         @Override
         public void onBindViewHolder(orderViewHolder holder, final int position) {
-            holder.tv_name.setText(list.get(position).getUser());
-            holder.tv_price.setText(list.get(position).getPrice());
-            holder.tv_date.setText(list.get(position).getDate());
+
+
+            holder.tv_name.setText(list.get(position).getOwnerUid());
+            holder.tv_price.setText(list.get(position).getProduct());
+            holder.tv_date.setText(list.get(position).getQuatityBuy());
             holder.tv_status.setText(list.get(position).getStatus());
             holder.btn_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -74,7 +84,14 @@ public class AdminOrdersAdapter {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     //Lap trinh o day
                                     //product/delete/<idproduct>
-                                    Toast.makeText(context, "Yaay", Toast.LENGTH_SHORT).show();
+                                    AsyncHttpApi.delete(token,"/orders/"+list.get(position).get_id(),new JsonHttpResponseHandler(){
+                                        @Override
+                                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                            super.onSuccess(statusCode, headers, response);
+                                            list.remove(position);
+                                            AdminOrdersAdapter.orderAdap.super.notifyDataSetChanged();
+                                        }
+                                    });
                                 }})
                             .setNegativeButton(android.R.string.no, null).show();
                 }

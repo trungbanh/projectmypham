@@ -119,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private String postSignIn(RequestParams params) {
-        AsyncHttpApi.post("/user/login",params,new JsonHttpResponseHandler() {
+        AsyncHttpApi.post_logIn("/user/login",params,new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
