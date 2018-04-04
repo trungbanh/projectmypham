@@ -37,16 +37,15 @@
             android:layout_width="match_parent"
             android:layout_marginRight="6dp"
             android:layout_marginLeft="16dp"
-            android:layout_weight="1"
             android:layout_marginBottom="6dp"
             android:layout_height="wrap_content"
             android:textSize="13sp"
+            android:layout_weight="1"
             android:textAlignment="textEnd"
-            android:id="@+id/tv_admin_order_date"
-            android:fontFamily="sans-serif"
-            android:lines="1"
+            android:id="@+id/tv_admin_order_status"
+            android:textColor="@android:color/holo_red_dark"
+            android:text="Đang xử lí"/>
 
-            android:text="22/12/2012"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -62,22 +61,25 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:layout_weight="1"
-            android:id="@+id/tv_admin_order_price"
+            android:id="@+id/tv_admin_order_product"
             android:textAlignment="textStart"
             android:textColor="@android:color/holo_red_dark"
-            android:text="200.000 đ"/>
+            android:text="Sản phẩm A"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_marginRight="6dp"
             android:layout_marginLeft="16dp"
+            android:layout_weight="1"
             android:layout_marginBottom="6dp"
             android:layout_height="wrap_content"
             android:textSize="13sp"
-            android:layout_weight="1"
             android:textAlignment="textEnd"
-            android:id="@+id/tv_admin_order_status"
-            android:textColor="@android:color/holo_red_dark"
-            android:text="Đang xử lí"/>
+            android:id="@+id/tv_admin_order_quantity"
+            android:fontFamily="sans-serif"
+            android:lines="1"
+
+            android:text="Quantity: 5"/>
+
     </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -97,8 +99,8 @@
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/btn_admin_order_edit"
-                android:src="@drawable/ic_mode_edit_black_24dp"/>
+                android:id="@+id/btn_admin_order_check_paid"
+                android:src="@drawable/ic_btn_sign_in"/>
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
