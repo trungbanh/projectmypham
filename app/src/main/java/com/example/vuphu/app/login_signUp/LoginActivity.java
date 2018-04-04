@@ -16,6 +16,7 @@ import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
 import com.example.vuphu.app.MainActivity;
 import com.example.vuphu.app.object.SignUpToken;
 import com.example.vuphu.app.R;
+import com.example.vuphu.app.object.TokenId;
 import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -67,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.i("mail",emailInput.getText().toString());
                 Log.i("pass",passInput.getText().toString());
-                progressBar.show();
+                //progressBar.show();
                     signIn(emailInput.getText().toString(),passInput.getText().toString());
             }
         });
@@ -130,6 +131,14 @@ public class LoginActivity extends AppCompatActivity {
                 Log.i("checkToken",token.getToken());
                 edit.putString("token",token.getToken());
                 edit.putString("message",token.getMessage());
+
+                try {
+                    String decode = JWTUtils.decoded(token.getToken());
+                    Log.i("messager",decode);
+                    edit.putString("userId",gson.fromJson(decode,TokenId.class).getUserId());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 edit.commit();
                 //Log.i("messager",token.getMessage());
 
@@ -141,7 +150,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         String token = pre.getString("token","");
-        Toast.makeText(this, token, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, token, Toast.LENGTH_SHORT).show();
+        //Log.i("token",token);
         return token;
     }
 }

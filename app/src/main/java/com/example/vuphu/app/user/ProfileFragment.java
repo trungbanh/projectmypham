@@ -1,5 +1,7 @@
 package com.example.vuphu.app.user;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,15 +10,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
 import com.example.vuphu.app.R;
 import com.example.vuphu.app.object.users;
 import com.example.vuphu.app.user.adapter.TabPagerAdapter;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class ProfileFragment extends Fragment {
 
 
     private static users userData;
+
 
     public ProfileFragment() {
 
@@ -50,8 +56,11 @@ public class ProfileFragment extends Fragment {
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) v.findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
+
+        //updateInfo(token ,);
+
+
         return v;
     }
-
 
 }

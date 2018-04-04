@@ -3,16 +3,14 @@ package com.example.vuphu.app.AcsynHttp;
 import android.content.Context;
 
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.HttpEntity;
 
 public class AsyncHttpApi {
     private static final String BASE_URL = NetworkConst.network;
     private static AsyncHttpClient client = new AsyncHttpClient();
+
 
 
     public static void get(String token,String url, RequestParams params, JsonHttpResponseHandler responseHandler) {
@@ -34,7 +32,6 @@ public class AsyncHttpApi {
     }
     public static void put (String token, String url, RequestParams params, JsonHttpResponseHandler responseHandler){
         client.addHeader("Authorization","Bearer "+token);
-        client.addHeader("Content-Type","application/x-www-form-urlencoded");
         client.put(getAbsoluteUrl(url),params, responseHandler);
     }
     public static void delete(String token, String url, JsonHttpResponseHandler responseHandler){

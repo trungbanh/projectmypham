@@ -46,11 +46,11 @@ public class AdminOrdersAdapter {
         public orderViewHolder(View itemView) {
             super(itemView);
             tv_name = itemView.findViewById(R.id.tv_admin_order_name);
-            tv_quantity = itemView.findViewById(R.id.tv_admin_order_quantity);
+            /*tv_quantity = itemView.findViewById(R.id.tv_admin_order_quantity);
             tv_product = itemView.findViewById(R.id.tv_admin_order_product);
             tv_status  = itemView.findViewById(R.id.tv_admin_order_status);
             btn_paid = itemView.findViewById(R.id.btn_admin_order_check_paid);
-            btn_delete = itemView.findViewById(R.id.btn_admin_order_delete);
+            btn_delete = itemView.findViewById(R.id.btn_admin_order_delete);*/
 
         }
     }
