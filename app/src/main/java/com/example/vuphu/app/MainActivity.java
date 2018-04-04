@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity
             temp = AdminUserFragment.newInstance();
         }
         android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.content,temp);;
+        transaction.replace(R.id.content,temp);
         transaction.commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -8,14 +8,16 @@ import java.io.Serializable;
 
 public class users  implements Serializable {
 
-    private String name,img;
-
-    public users(String name, String img) {
-        this.name = name;
-        this.img = img;
-    }
+    private String name,avatar,_id, email;
 
     public users() {
+    }
+
+    public users(String name, String avatar, String _id, String email) {
+        this.name = name;
+        this.avatar = avatar;
+        this._id = _id;
+        this.email = email;
     }
 
     public String getName() {
@@ -26,11 +28,27 @@ public class users  implements Serializable {
         this.name = name;
     }
 
-    public String getImg() {
-        return img;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
