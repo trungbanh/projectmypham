@@ -9,7 +9,6 @@ import java.io.Serializable;
 public class users  implements Serializable {
 
     private String name,avatar,_id, email;
-
     public users() {
     }
 
