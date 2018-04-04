@@ -83,7 +83,9 @@ public class MainActivity extends AppCompatActivity
                 });
                 return false;
             }
+
         });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -115,7 +117,30 @@ public class MainActivity extends AppCompatActivity
         }
         navigationView.setNavigationItemSelectedListener(this);
 
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+                //Do some magic
+            }
 
+            @Override
+            public void onSearchViewClosed() {
+                String user=pre.getString("type_user", "");
+                if (user.equals("admin")) {
+                    setTitle("Danh mục sản phẩm");
+                    android.support.v4.app.FragmentTransaction transaction;
+                    transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.content, AdminCatogoriesFragment.newInstance());
+                    transaction.commit();
+                }
+                else {
+                    android.support.v4.app.FragmentTransaction transaction;
+                    transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.content, CatogriesFragment.newInstance());
+                    transaction.commit();
+                }
+            }
+        });
     }
 
     @Override
