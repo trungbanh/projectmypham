@@ -72,7 +72,7 @@ public class AddMoneyFragment extends Fragment {
 
     private void addCast (String token,String num) {
         RequestParams params = new RequestParams() ;
-        params.put("numberDeposit",num);
+        params.put("balance",num);
 
         AsyncHttpApi.post(token,"/account/deposit",params,new JsonHttpResponseHandler() {
             @Override
@@ -80,12 +80,7 @@ public class AddMoneyFragment extends Fragment {
                 Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
             }
         });
-
     }
-
-
-
-   
 
 
 }

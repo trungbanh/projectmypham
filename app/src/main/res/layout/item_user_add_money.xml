@@ -19,21 +19,7 @@
 
             android:weightSum="2"
             android:orientation="horizontal">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_marginRight="6dp"
-                android:layout_marginLeft="16dp"
-                android:layout_weight="1"
-                android:layout_marginBottom="6dp"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textAlignment="textStart"
-                android:id="@+id/tv_user_add_name"
-                android:fontFamily="sans-serif-medium"
-                android:lines="1"
-                android:textColor="@android:color/black"
-                android:text="Nguyễn Thị B"/>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_marginRight="6dp"
@@ -46,8 +32,7 @@
                 android:id="@+id/tv_user_add_date"
                 android:fontFamily="sans-serif"
                 android:lines="1"
-
-                android:text="22/12/2012"/>
+                android:text=""/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

@@ -12,10 +12,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vuphu.app.R;
+import com.example.vuphu.app.object.HistoryDeposit;
 import com.example.vuphu.app.object.addMoney;
 import com.example.vuphu.app.object.order;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by vuphu on 4/1/2018.
@@ -23,27 +25,26 @@ import java.util.ArrayList;
 
 public class AddMoneyAdapter {
 
+
     private static class addViewHolder extends RecyclerView.ViewHolder{
 
-
-        private TextView tv_name, tv_price,tv_date,tv_status;
+        TextView date ;
+        TextView number ;
+        TextView status ;
 
         public addViewHolder(View itemView) {
             super(itemView);
-            tv_name = itemView.findViewById(R.id.tv_user_add_name);
-            tv_date = itemView.findViewById(R.id.tv_user_add_date);
-            tv_price = itemView.findViewById(R.id.tv_user_add_price);
-            tv_status  = itemView.findViewById(R.id.tv_user_add_status);
-
-
+            date = itemView.findViewById(R.id.tv_user_add_date);
+            number = itemView.findViewById(R.id.tv_user_add_price);
+            status = itemView.findViewById(R.id.tv_user_add_status);
         }
     }
 
     public static class orderAdap extends RecyclerView.Adapter<addViewHolder>{
 
-        ArrayList<addMoney> list;
+        List<HistoryDeposit> list;
         Context context;
-        public orderAdap(ArrayList<addMoney> list, Context context) {
+        public orderAdap(List<HistoryDeposit> list, Context context) {
             this.list = list;
             this.context = context;
         }
@@ -51,15 +52,18 @@ public class AddMoneyAdapter {
         @Override
         public addViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(context).inflate(R.layout.item_user_add_money,parent, false);
-            return new addViewHolder(v);
+            AddMoneyAdapter.addViewHolder vh = new addViewHolder(v);
+
+
+
+            return vh ;
         }
 
         @Override
         public void onBindViewHolder(addViewHolder holder, final int position) {
-            holder.tv_name.setText(list.get(position).getUser());
-            holder.tv_price.setText(list.get(position).getPrice());
-            holder.tv_date.setText(list.get(position).getDate());
-            holder.tv_status.setText(list.get(position).getStatus());
+            holder.status.setText(list.get(position).getId());
+            holder.number.setText(list.get(position).getNumberDeposit());
+            holder.date.setText(list.get(position).getCreateAt());
 
         }
 
@@ -67,5 +71,7 @@ public class AddMoneyAdapter {
         public int getItemCount() {
             return list.size();
         }
+
+
     }
 }
