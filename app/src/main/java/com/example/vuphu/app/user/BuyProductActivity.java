@@ -13,7 +13,9 @@ import android.widget.Toast;
 
 import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
 import com.example.vuphu.app.R;
+import com.example.vuphu.app.object.Payment;
 import com.example.vuphu.app.object.Product;
+import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -119,15 +121,31 @@ public class BuyProductActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.i("buy",response.toString());
-                if (response!=null) {
-                    Toast.makeText(BuyProductActivity.this, "order complete !!!", Toast.LENGTH_SHORT).show();
+                Gson gson = new Gson();
 
+                if (response!=null) {
+
+                    Payment payment = gson.fromJson(response.toString(),Payment.class);
+                    paymentFuntion(pre.getString("token",""),payment.getCreatedOrder().getId().toString());
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.i("buy",errorResponse.toString());
+            }
+        });
+    }
+
+    private void paymentFuntion (String token,String idOrder) {
+        RequestParams params = new RequestParams();
+        params.put("_id",idOrder);
+        AsyncHttpApi.post(token,"/payment",params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                if (response != null) {
+                    Toast.makeText(BuyProductActivity.this, "order complete !!!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
