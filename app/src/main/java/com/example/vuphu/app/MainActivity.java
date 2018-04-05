@@ -20,7 +20,7 @@ import com.example.vuphu.app.admin.AdminCatogoriesFragment;
 import com.example.vuphu.app.admin.AdminOrdersFragment;
 import com.example.vuphu.app.admin.AdminUserFragment;
 import com.example.vuphu.app.login_signUp.LoginActivity;
-import com.example.vuphu.app.object.users;
+import com.example.vuphu.app.object.AcountId;
 import com.example.vuphu.app.user.AddMoneyFragment;
 import com.example.vuphu.app.user.CatogriesFragment;
 import com.example.vuphu.app.user.ProfileFragment;
@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity
             return true;
 
         } else if (id == R.id.nav_profile) {
-            users u = new users();
+            AcountId u = new AcountId();
             temp = ProfileFragment.newInstance(u);
             setTitle("Thông tin tài khoản");
         } else if (id == R.id.nav_cato) {

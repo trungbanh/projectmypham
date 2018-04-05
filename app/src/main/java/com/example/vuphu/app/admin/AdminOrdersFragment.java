@@ -59,14 +59,7 @@ public class AdminOrdersFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_admin_orders, container, false);
-//        list.add(new order("22/12/2012","20.000","Đang xử lí","Nguyễn Thị A"));
-//        list.add(new order("22/12/2012","20.000","Đang xử lí","Nguyễn Thị A"));
-//        list.add(new order("22/12/2012","20.000","Đang xử lí","Nguyễn Thị A"));
-//        list.add(new order("22/12/2012","20.000","Đang xử lí","Nguyễn Thị A"));
-//        list.add(new order("22/12/2012","20.000","Đang xử lí","Nguyễn Thị A"));
-//        list.add(new order("22/12/2012","20.000","Đang xử lí","Nguyễn Thị A"));
-//        list.add(new order("22/12/2012","20.000","Đang xử lí","Nguyễn Thị A"));
-//        list.add(new order("22/12/2012","20.000","Đang xử lí","Nguyễn Thị A"));
+
         pre =getActivity().getSharedPreferences("data", MODE_PRIVATE);
         list_order = v.findViewById(R.id.list_admin_orders);
 

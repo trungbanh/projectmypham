@@ -14,10 +14,8 @@ import android.view.ViewGroup;
 import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
 import com.example.vuphu.app.ItemOffsetDecoration;
 import com.example.vuphu.app.R;
-import com.example.vuphu.app.admin.adapter.AdminProductApdater;
 import com.example.vuphu.app.admin.adapter.AdminUserApdater;
-import com.example.vuphu.app.object.Product;
-import com.example.vuphu.app.object.users;
+import com.example.vuphu.app.object.AcountId;
 import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -33,7 +31,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class AdminUserFragment extends Fragment {
 
-    private ArrayList<users> list = new ArrayList<>();
+    private ArrayList<AcountId> list = new ArrayList<>();
     private RecyclerView list_users;
     private SharedPreferences pre;
     public AdminUserFragment() {
@@ -62,25 +60,15 @@ public class AdminUserFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_admin_user, container, false);
         pre =getActivity().getSharedPreferences("data", MODE_PRIVATE);
 
-//        list.add(new users("Nguyễn Thị A","B"));
-//        list.add(new users("Nguyễn Thị A","B"));
-//        list.add(new users("Nguyễn Thị A","B"));
-//        list.add(new users("Nguyễn Thị A","B"));
-//        list.add(new users("Nguyễn Thị A","B"));
-//        list.add(new users("Nguyễn Thị A","B"));
-//        list.add(new users("Nguyễn Thị A","B"));
-//        list.add(new users("Nguyễn Thị A","B"));
+
         list_users = v.findViewById(R.id.list_admin_user);
         list_users.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
         list_users.setLayoutManager(gridLayoutManager);
 
-        // get <user> kem token admin trong header
 
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getContext(), R.dimen.item_offset);
         list_users.addItemDecoration(itemDecoration);
-//        AdminUserApdater.userAdap adap = new AdminUserApdater.userAdap(list, getContext());
-//        list_users.setAdapter(adap);
         loadUser();
         return v;
     }
@@ -96,7 +84,7 @@ public class AdminUserFragment extends Fragment {
                 if (jArray != null) {
                     for (int i=0;i<jArray.length();i++){
                         try {
-                            list.add(gson.fromJson(jArray.get(i).toString(),users.class));
+                            list.add(gson.fromJson(jArray.get(i).toString(),AcountId.class));
                             Log.i("product",jArray.get(i).toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -110,5 +98,7 @@ public class AdminUserFragment extends Fragment {
             }
         });
     }
+
+
 
 }

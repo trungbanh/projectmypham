@@ -14,9 +14,11 @@ import android.widget.Toast;
 
 import com.example.vuphu.app.R;
 import com.example.vuphu.app.admin.AdminEditProductActivity;
+import com.example.vuphu.app.object.listOrder;
 import com.example.vuphu.app.object.order;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by vuphu on 4/1/2018.
@@ -43,9 +45,9 @@ public class UserOrdersAdapter {
 
     public static class orderAdap extends RecyclerView.Adapter<orderViewHolder>{
 
-        ArrayList<order> list;
+        List<Object> list;
         Context context;
-        public orderAdap(ArrayList<order> list, Context context) {
+        public orderAdap(List<Object> list, Context context) {
             this.list = list;
             this.context = context;
         }
@@ -58,10 +60,10 @@ public class UserOrdersAdapter {
 
         @Override
         public void onBindViewHolder(orderViewHolder holder, final int position) {
-            holder.tv_name.setText(list.get(position).getOwnerUid());
-            holder.tv_price.setText(list.get(position).getProduct());
-            holder.tv_date.setText(list.get(position).getQuatityBuy());
-            holder.tv_status.setText(list.get(position).getStatus());
+            //holder.tv_name.setText(list.get(position).getAccountId().getName());
+            //holder.tv_price.setText(list[position].getHistoryOrder().toString());
+            //holder.tv_date.setText(list[position].getQuatityBuy());
+            //holder.tv_status.setText(list[position].getStatus());
 
             // get <json> kem token
 

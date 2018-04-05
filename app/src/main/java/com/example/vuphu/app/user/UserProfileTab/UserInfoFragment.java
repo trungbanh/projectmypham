@@ -74,6 +74,7 @@ public class UserInfoFragment extends Fragment {
             public void onClick(View v) {
                 upDateInfo(pre.getString("token",""));
                 Toast.makeText(getActivity(), "update complete!!!", Toast.LENGTH_SHORT).show();
+
             }
         });
 

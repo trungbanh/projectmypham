@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.vuphu.app.R;
-import com.example.vuphu.app.object.users;
+import com.example.vuphu.app.object.AcountId;
 
 import java.util.ArrayList;
 
@@ -36,9 +36,9 @@ public class AdminUserApdater {
 
     public static class userAdap extends RecyclerView.Adapter<userViewHolder>{
 
-        ArrayList<users> list;
+        ArrayList<AcountId> list;
         Context context;
-        public userAdap(ArrayList<users> list, Context context) {
+        public userAdap(ArrayList<AcountId> list, Context context) {
             this.list = list;
             this.context = context;
         }

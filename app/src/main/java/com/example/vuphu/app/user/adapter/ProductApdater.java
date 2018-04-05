@@ -72,7 +72,6 @@ public class ProductApdater {
             });
 
             Log.i("image",list.get(position).getProductImage());
-//            holder.img_product.setImageBitmap(showImage ("http://192.168.28.101:3000/"+list.get(position).getProductImage().replace("\\","/")));
             Picasso.get().load(NetworkConst.network+"/"+list.get(position).getProductImage().replace("\\","/")).error(R.drawable.ic_terrain_black_24dp).placeholder(R.drawable.mypham).into(holder.img_product);
         }
 
@@ -80,35 +79,6 @@ public class ProductApdater {
         public int getItemCount() {
             return list.size();
         }
-
-//        private Bitmap showImage(String iurl) {
-//            URL url = null;
-//
-//            Bitmap bitmap = null;
-//            try {
-//                url = new URL(iurl);
-//
-//                HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
-//
-//                httpConn.connect();
-//                int resCode = httpConn.getResponseCode();
-//
-//                if (resCode == HttpURLConnection.HTTP_OK) {
-//                    InputStream in = httpConn.getInputStream();
-//                    bitmap = BitmapFactory.decodeStream(in);
-//
-//                    return bitmap;
-//                }
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            return bitmap;
-//        }
     }
-
-
-
 
 }

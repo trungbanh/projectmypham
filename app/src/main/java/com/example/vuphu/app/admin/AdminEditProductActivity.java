@@ -197,12 +197,6 @@ public class AdminEditProductActivity extends AppCompatActivity {
         requestParams.put("quatity",Integer.parseInt(edt_quantity.getText().toString()));
         requestParams.put("description",edt_desc.getText());
         requestParams.put("type",edt_type.getText());
-//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//        getBitmapFromUri(uri).compress(Bitmap.CompressFormat.PNG,100,stream);
-//        byte[] byteArray = stream.toByteArray();
-//        getBitmapFromUri(uri).recycle();
-//        if (byteArray!= null) {
-//            requestParams.put("productImage", byteArray);
             AsyncHttpApi.put(pre.getString("token", null), "/products/" + product.getId(), requestParams, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

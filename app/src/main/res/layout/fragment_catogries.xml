@@ -38,7 +38,7 @@
             android:fontFamily="sans-serif-medium"
 
             android:padding="10dp"
-            android:text="Tất cả sản phẩm"
+            android:text="All Product"
             android:textSize="16sp"
             android:textStyle="bold" />
 

@@ -11,69 +11,71 @@
     <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         app:cardBackgroundColor="@android:color/white"
         app:cardCornerRadius="2dp"
-        android:layout_margin="10dp"
         app:cardElevation="10dp">
+
         <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
             android:orientation="vertical"
-            android:id="@+id/linearLayout2"
-            >
+            android:padding="16dp">
 
             <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:weightSum="2"
                 android:layout_margin="10dp"
                 android:orientation="horizontal"
-                android:id="@+id/linearLayout">
+                android:weightSum="2">
 
                 <TextView
+                    android:id="@+id/tv_buy_name"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.75"
-                    android:textColor="@android:color/black"
                     android:layout_gravity="center"
-                    android:textSize="18dp"
-
-                    android:textAllCaps="true"
+                    android:layout_weight="0.75"
+                    android:autoSizeTextType="uniform"
                     android:fontFamily="sans-serif-light"
                     android:text="Cà phê đen"
-                    android:autoSizeTextType="uniform"
-                    android:id="@+id/tv_buy_name" />
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
 
                 <TextView
+                    android:id="@+id/tv_buy_price"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.25"
-                    android:textColor="@color/colorAccent"
-                    android:textAlignment="textEnd"
-                    android:textSize="14dp"
                     android:autoSizeTextType="uniform"
                     android:fontFamily="sans-serif-light"
-                    android:text="VND 15.000"
-                    android:id="@+id/tv_buy_price" />
+                    android:text="15.000"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14dp" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/bg"></LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_gravity="center"
-                android:elevation="10dp"
-                android:translationZ="10dp"
                 android:layout_marginBottom="10dp"
-                android:padding="4dp">
+                android:elevation="10dp"
+                android:orientation="horizontal"
+                android:padding="4dp"
+                android:translationZ="10dp">
+
                 <ImageView
-                    android:id="@+id/icon_sub_order"
+                    android:id="@+id/usr_sub_order"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -82,69 +84,93 @@
                     android:padding="2dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_remove"
-                    android:tint="@color/colorPrimary"/>
+                    android:tint="@color/colorPrimary" />
 
                 <TextView
+                    android:id="@+id/tv_buy_count"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:text="1"
+                    android:textAlignment="center"
                     android:textAllCaps="true"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="20dp"
-                    android:layout_gravity="center"
-                    android:id="@+id/txt_buy_count"
-                    android:textAlignment="center"
-                    />
+                    android:textSize="20dp" />
 
                 <ImageView
+                    android:id="@+id/usr_add_order"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:padding="2dp"
-                    android:tint="@color/colorPrimary"
-                    android:clickable="true"
                     android:layout_gravity="center"
                     android:background="?selectableItemBackground"
-                    android:id="@+id/icon_add_order"
-                    android:src="@drawable/ic_add" />
+                    android:clickable="true"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_add"
+                    android:tint="@color/colorPrimary" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_margin="10dp"
+                android:orientation="horizontal"
                 android:weightSum="2">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@android:color/black"
-                    android:layout_gravity="center"
-                    android:textSize="16dp"
 
-                    android:layout_marginLeft="10dp"
-                    android:textAllCaps="true"
-                    android:fontFamily="sans-serif-light"
-                    android:text="Tổng:\n\t0.000"
-                    android:autoSizeTextType="uniform"
-                    android:id="@+id/tv_sum_money" />
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:autoSizeTextType="uniform"
+                        android:fontFamily="sans-serif-light"
+                        android:text="sumary"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/black"
+                        android:textSize="16dp" />
+
+
+                    <TextView
+                        android:id="@+id/tv_sum_money"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+
+                        android:autoSizeTextType="uniform"
+                        android:fontFamily="sans-serif-light"
+                        android:text=""
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/black"
+                        android:textSize="16dp" />
+
+                </LinearLayout>
+
                 <Button
                     android:id="@+id/btn_buy"
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@drawable/btn_bg"
-                    android:adjustViewBounds="true"
-                    android:clickable="true"
+                    android:layout_gravity="left"
                     android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/btn_bg"
+                    android:clickable="true"
                     android:elevation="8dp"
-                    android:translationZ="10dp"
-                    android:scaleType="fitCenter"
                     android:fontFamily="sans-serif-light"
+                    android:scaleType="fitCenter"
+                    android:text="buy"
                     android:textColor="@android:color/white"
-                    android:text="Thanh Toán"
+                    android:translationZ="10dp"
 
                     />
             </LinearLayout>

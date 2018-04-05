@@ -14,8 +14,8 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Họ tên"
-            android:text="Nguyễn Thị A"
+            android:hint="full name"
+            android:text=""
             android:editable="false"
             android:inputType="textPersonName"
             android:id="@+id/edt_user_name"
@@ -28,9 +28,9 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Số điện thoại"
+            android:hint="phone number"
 
-            android:text="0123456789"
+            android:text=""
             android:editable="false"
             android:inputType="phone"
             android:id="@+id/edt_user_phoneNumber"
@@ -44,9 +44,9 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Địa chỉ"
+            android:hint="address"
 
-            android:text="hẻm nào đó, đường đó, Ninh Kiều, Cần Thơ"
+            android:text=""
             android:editable="false"
             android:inputType="textPostalAddress"
             android:id="@+id/edt_user_address"
@@ -64,6 +64,6 @@
         android:fontFamily="sans-serif-light"
         android:background="@drawable/btn_bg"
         android:textColor="@android:color/white"
-        android:text="Sửa" />
+        android:text="update profille" />
 
 </LinearLayout>

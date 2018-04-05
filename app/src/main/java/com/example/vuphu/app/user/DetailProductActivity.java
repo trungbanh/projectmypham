@@ -44,9 +44,12 @@ public class DetailProductActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         Intent in = getIntent() ;
-        Product title = (Product) in.getSerializableExtra("data");
+        final Product title = (Product) in.getSerializableExtra("data");
 
         setTitle(title.getName());
+
+        title.getProductId();
+
 
 
         imageView = findViewById(R.id.img_detail_product);
@@ -63,37 +66,12 @@ public class DetailProductActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), BuyProductActivity.class));
+                Intent intent = new Intent(getApplicationContext(), BuyProductActivity.class);
+                intent.putExtra("productId",title);
+                startActivity(intent);
             }
         });
     }
-
-    private Bitmap showImage(String iurl) {
-        URL url = null;
-
-        Bitmap bitmap = null;
-        try {
-            url = new URL(iurl);
-
-            HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
-
-            httpConn.connect();
-            int resCode = httpConn.getResponseCode();
-
-            if (resCode == HttpURLConnection.HTTP_OK) {
-                InputStream in = httpConn.getInputStream();
-                bitmap = BitmapFactory.decodeStream(in);
-
-                return bitmap;
-            }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bitmap;
-    }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();

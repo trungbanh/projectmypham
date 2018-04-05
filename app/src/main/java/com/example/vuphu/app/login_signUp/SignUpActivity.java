@@ -33,10 +33,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     private SignUpToken token ;
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
