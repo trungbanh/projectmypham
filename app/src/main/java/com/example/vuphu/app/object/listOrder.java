@@ -15,7 +15,7 @@ public class listOrder {
     private List<HistoryDeposit> historyDeposit = null;
     @SerializedName("historyOrder")
     @Expose
-    private List<Object> historyOrder = null;
+    private List<HistoryOrder> historyOrder = null;
     @SerializedName("_id")
     @Expose
     private String id;
@@ -42,11 +42,11 @@ public class listOrder {
         this.historyDeposit = historyDeposit;
     }
 
-    public List<Object> getHistoryOrder() {
+    public List<HistoryOrder> getHistoryOrder() {
         return historyOrder;
     }
 
-    public void setHistoryOrder(List<Object> historyOrder) {
+    public void setHistoryOrder(List<HistoryOrder> historyOrder) {
         this.historyOrder = historyOrder;
     }
 

@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
 import com.example.vuphu.app.AcsynHttp.NetworkConst;
 import com.example.vuphu.app.R;
+import com.example.vuphu.app.object.HistoryDeposit;
+import com.example.vuphu.app.object.HistoryOrder;
 import com.example.vuphu.app.object.listOrder;
 import com.example.vuphu.app.object.order;
 import com.example.vuphu.app.user.adapter.UserOrdersAdapter;
@@ -31,9 +33,10 @@ import cz.msebera.android.httpclient.Header;
 
 public class OrderHistoryFragment extends Fragment {
 
-    private List<Object> list ;
+    private List<HistoryOrder> list ;
     private RecyclerView list_order;
     LinearLayoutManager gridLayoutManager ;
+    private UserOrdersAdapter.orderAdap adap ;
 
     public OrderHistoryFragment() {
         // Required empty public constructor
@@ -80,17 +83,18 @@ public class OrderHistoryFragment extends Fragment {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.i("onsucess",response.toString());
+                //Log.i("onsucesshis",response.toString());
                 Gson gson = new Gson();
                 order = gson.fromJson(response.toString(),listOrder.class);
                 if (order.getHistoryOrder().size() == 0){
 
                 } else {
                     list = order.getHistoryOrder();
+                    Log.i("listHis",list.get(0).getProduct());
                     list_order.setLayoutManager(gridLayoutManager);
                     list_order.setHasFixedSize(true);
                     list_order.setNestedScrollingEnabled(true);
-                    UserOrdersAdapter.orderAdap adap = new UserOrdersAdapter.orderAdap(list, getContext());
+                    adap = new UserOrdersAdapter.orderAdap(list, getContext());
                     list_order.setAdapter(adap);
 
                 }

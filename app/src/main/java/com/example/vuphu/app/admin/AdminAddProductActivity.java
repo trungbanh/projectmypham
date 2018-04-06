@@ -32,8 +32,13 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -114,62 +119,38 @@ public class AdminAddProductActivity extends AppCompatActivity {
 
     public void performFileSearch() {
 
-        // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file
-        // browser.
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-
-        // Filter to only show results that can be "opened", such as a
-        // file (as opposed to a list of contacts or timezones)
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        // Filter to show only images, using the image MIME data type.
-        // If one wanted to search for ogg vorbis files, the type would be "audio/ogg".
-        // To search for all documents available via installed storage providers,
-        // it would be "*/*".
-        intent.setType("image/*");
-
-        startActivityForResult(intent, READ_REQUEST_CODE);
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, 0);
     }
 
+
     @Override
-    public void onActivityResult(int requestCode, int resultCode,
-                                 Intent resultData) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            uri = data.getData();
+            Log.i("link",uri.toString());
+            try {
 
-        // The ACTION_OPEN_DOCUMENT intent was sent with the request code
-        // READ_REQUEST_CODE. If the request code seen here doesn't match, it's the
-        // response to some other intent, and the code below shouldn't run at all.
-
-        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            // The document selected by the user won't be returned in the intent.
-            // Instead, a URI to that document will be contained in the return intent
-            // provided to this method as a parameter.
-            // Pull that URI using resultData.getData().
-
-            if (resultData != null) {
-                uri = resultData.getData();
-                Log.i("TAG", "Uri: " + uri.toString());
-                try {
-                    showImage(uri);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                final InputStream imageStream = getContentResolver().openInputStream(uri);
+                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                img_product.setImageBitmap(selectedImage);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
             }
+        }else {
+            Toast.makeText(this, "You haven't picked Image",Toast.LENGTH_LONG).show();
         }
     }
 
     private Bitmap getBitmapFromUri(Uri uri) throws IOException {
-        ParcelFileDescriptor parcelFileDescriptor =
-                getContentResolver().openFileDescriptor(uri, "r");
-        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-        parcelFileDescriptor.close();
+        InputStream imageStream = getContentResolver().openInputStream(uri);
+        Bitmap image = BitmapFactory.decodeStream(imageStream);
         return image;
     }
 
-    private void showImage(Uri uri) throws IOException {
-        img_product.setImageBitmap(getBitmapFromUri(uri));
-
-    }
 
     private void add() throws IOException {
         RequestParams requestParams = new RequestParams();

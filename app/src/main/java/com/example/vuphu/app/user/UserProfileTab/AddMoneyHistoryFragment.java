@@ -1,5 +1,7 @@
 package com.example.vuphu.app.user.UserProfileTab;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,6 +35,7 @@ public class AddMoneyHistoryFragment extends Fragment {
     private List<HistoryDeposit> list ;
     private RecyclerView list_add;
     LinearLayoutManager gridLayoutManager ;
+    private SharedPreferences pre ;
 
     listOrder order;
 
@@ -59,19 +62,15 @@ public class AddMoneyHistoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_add_money_history, container, false);
-//        list.add(new addMoney("22/12/2012","20.000","Đang xử lí","Nguyễn Thị A"));
-//        list.add(new addMoney("22/12/2012","20.000","Đang xử lí","Nguyễn Thị A"));
-//        list.add(new addMoney("22/12/2012","20.000","Đang xử lí","Nguyễn Thị A"));
-//        list.add(new addMoney("22/12/2012","20.000","Đang xử lí","Nguyễn Thị A"));
-//        list.add(new addMoney("22/12/2012","20.000","Đang xử lí","Nguyễn Thị A"));
-//        list.add(new addMoney("22/12/2012","20.000","Đang xử lí","Nguyễn Thị A"));
-//        list.add(new addMoney("22/12/2012","20.000","Đang xử lí","Nguyễn Thị A"));
-//        list.add(new addMoney("22/12/2012","20.000","Đang xử lí","Nguyễn Thị A"));
 
 
         list_add = v.findViewById(R.id.list_user_add_money);
 
         gridLayoutManager = new LinearLayoutManager(getContext());
+
+        pre = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+
+        getToken(pre.getString("token",""));
 
         return v;
     }
@@ -82,15 +81,14 @@ public class AddMoneyHistoryFragment extends Fragment {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.i("onsucess",response.toString());
+                //Log.i("onsucess",response.toString());
                 Gson gson = new Gson();
                 order = gson.fromJson(response.toString(),listOrder.class);
-                if (order.getHistoryOrder().size() == 0){
+                if (order.getHistoryDeposit().size() <= 0){
 
                 } else {
                     list = order.getHistoryDeposit();
-                    list_add.setLayoutManager(gridLayoutManager);
-
+                    Log.i("listhis",list.get(0).getNumberDeposit().toString());
                     list_add.setLayoutManager(gridLayoutManager);
                     list_add.setHasFixedSize(true);
                     list_add.setNestedScrollingEnabled(true);

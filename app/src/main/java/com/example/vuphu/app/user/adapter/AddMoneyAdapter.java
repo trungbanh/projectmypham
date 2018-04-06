@@ -62,7 +62,7 @@ public class AddMoneyAdapter {
         @Override
         public void onBindViewHolder(addViewHolder holder, final int position) {
             holder.status.setText(list.get(position).getId());
-            holder.number.setText(list.get(position).getNumberDeposit());
+            holder.number.setText(list.get(position).getNumberDeposit().toString());
             holder.date.setText(list.get(position).getCreateAt());
 
         }

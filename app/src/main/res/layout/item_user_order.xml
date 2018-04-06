@@ -31,8 +31,7 @@
                 android:id="@+id/tv_user_order_name"
                 android:fontFamily="sans-serif-medium"
                 android:lines="1"
-                android:textColor="@android:color/black"
-                android:text="Nguyễn Thị B"/>
+                android:textColor="@android:color/black"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_marginRight="6dp"
