@@ -42,7 +42,6 @@ public class AsyncHttpApi {
 
     public static void post_admin_product(String token,String url, RequestParams params, JsonHttpResponseHandler responseHandler) {
         client.addHeader("Authorization","Bearer "+token);
-        client.addHeader("Content-Type","application/x-www-form-urlencoded");
         client.addHeader("Content-Type","multipart/form-data; boundary=MultipartBoundry");
         client.post(getAbsoluteUrl(url), params, responseHandler);
     }

@@ -5,10 +5,14 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,7 +28,10 @@ import android.widget.Toast;
 import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
 import com.example.vuphu.app.AcsynHttp.NetworkConst;
 import com.example.vuphu.app.R;
+import com.example.vuphu.app.RetrofitAPI.ApiUtils;
+import com.example.vuphu.app.RetrofitAPI.RetrofitClient;
 import com.example.vuphu.app.object.Product;
+import com.example.vuphu.app.object.ProductCallback;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
@@ -39,8 +46,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import cz.msebera.android.httpclient.Header;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AdminAddProductActivity extends AppCompatActivity {
 
@@ -105,12 +123,8 @@ public class AdminAddProductActivity extends AppCompatActivity {
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.show();
-                try {
-                    add();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                //progressBar.show();
+                addProduct();
             }
 
 
@@ -132,7 +146,6 @@ public class AdminAddProductActivity extends AppCompatActivity {
             uri = data.getData();
             Log.i("link",uri.toString());
             try {
-
                 final InputStream imageStream = getContentResolver().openInputStream(uri);
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                 img_product.setImageBitmap(selectedImage);
@@ -150,7 +163,6 @@ public class AdminAddProductActivity extends AppCompatActivity {
         Bitmap image = BitmapFactory.decodeStream(imageStream);
         return image;
     }
-
 
     private void add() throws IOException {
         RequestParams requestParams = new RequestParams();
@@ -174,4 +186,50 @@ public class AdminAddProductActivity extends AppCompatActivity {
         });
     }
 
+        private void addProduct () {
+
+            RequestParams params = new RequestParams();
+            params.put("name", edt_name_product.getText());
+            params.put("price",Integer.parseInt(edt_price.getText().toString()));
+            params.put("quatity",Integer.parseInt(edt_quantity.getText().toString()));
+            params.put("description",edt_desc.getText());
+            params.put("type",edt_type.getText());
+
+            File image = new File(getRealPathFromURI(uri));
+
+            //MediaType.parse("multipart/form-data")
+            RequestBody reqFile = RequestBody.create(MediaType.parse("multipart/form-data"), image);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("uploads/", "trung", reqFile);
+            RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "upload_test");
+
+
+
+            ApiUtils.getAPIService().upLoadProduct("Bearer "+
+                    pre.getString("token",""),body,name).enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    Log.i("se",response.message());
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+
+                }
+            });
+            //
+
+        }
+    private String getRealPathFromURI(Uri contentURI) {
+        String result;
+        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) { // Source is Dropbox or other similar local file path
+            result = contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            result = cursor.getString(idx);
+            cursor.close();
+        }
+        return result;
+    }
 }
