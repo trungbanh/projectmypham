@@ -44,7 +44,7 @@
             android:textAlignment="textEnd"
             android:id="@+id/tv_admin_order_status"
             android:textColor="@android:color/holo_red_dark"
-            android:text="Đang xử lí"/>
+            android:text="Processing"/>
 
     </LinearLayout>
     <LinearLayout

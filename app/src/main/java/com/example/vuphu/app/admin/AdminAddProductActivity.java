@@ -158,65 +158,36 @@ public class AdminAddProductActivity extends AppCompatActivity {
         }
     }
 
-    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
-        InputStream imageStream = getContentResolver().openInputStream(uri);
-        Bitmap image = BitmapFactory.decodeStream(imageStream);
-        return image;
-    }
+    private void addProduct () {
 
-    private void add() throws IOException {
-        RequestParams requestParams = new RequestParams();
-        requestParams.put("name", edt_name_product.getText());
-        requestParams.put("price",Integer.parseInt(edt_price.getText().toString()));
-        requestParams.put("quatity",Integer.parseInt(edt_quantity.getText().toString()));
-        requestParams.put("description",edt_desc.getText());
-        requestParams.put("type",edt_type.getText());
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        getBitmapFromUri(uri).compress(Bitmap.CompressFormat.PNG,100,stream);
-        byte[] byteArray = stream.toByteArray();
-        getBitmapFromUri(uri).recycle();
-        requestParams.put("productImage",byteArray);
-        AsyncHttpApi.post_admin_product(pre.getString("token",null),"/products/",requestParams, new JsonHttpResponseHandler(){
+        File im = new File (getRealPathFromURI(uri));
+
+
+        RequestBody image = RequestBody.create(MediaType.parse("image/*"),im);
+
+        RequestBody name = RequestBody.create(MediaType.parse("text/plain"),edt_name_product.getText().toString());
+        RequestBody price = RequestBody.create(MediaType.parse("text/plain"),edt_price.getText().toString());
+        RequestBody quatity = RequestBody.create(MediaType.parse("text/plain"),edt_quantity.getText().toString());
+        RequestBody description = RequestBody.create(MediaType.parse("text/plain"),edt_desc.getText().toString());
+        RequestBody type = RequestBody.create(MediaType.parse("text/plain"),edt_type.getText().toString());
+
+
+        ApiUtils.getAPIService().upLoadProduct(
+                    "Bearer "+ pre.getString("token",""),
+                    image,name,price,quatity,description,type).enqueue(new Callback<Void>() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-                progressBar.hide();
-                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.i("se",response.message());
+                Log.i("se",response.isSuccessful()+"");
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.i("sf",t.getMessage());
             }
         });
-    }
 
-        private void addProduct () {
-
-            RequestParams params = new RequestParams();
-            params.put("name", edt_name_product.getText());
-            params.put("price",Integer.parseInt(edt_price.getText().toString()));
-            params.put("quatity",Integer.parseInt(edt_quantity.getText().toString()));
-            params.put("description",edt_desc.getText());
-            params.put("type",edt_type.getText());
-
-            File image = new File(getRealPathFromURI(uri));
-
-            //MediaType.parse("multipart/form-data")
-            RequestBody reqFile = RequestBody.create(MediaType.parse("multipart/form-data"), image);
-            MultipartBody.Part body = MultipartBody.Part.createFormData("uploads/", "trung", reqFile);
-            RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "upload_test");
-
-
-
-            ApiUtils.getAPIService().upLoadProduct("Bearer "+
-                    pre.getString("token",""),body,name).enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    Log.i("se",response.message());
-                }
-
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-
-                }
-            });
-            //
+            //Log.i("se",response.message());
 
         }
     private String getRealPathFromURI(Uri contentURI) {

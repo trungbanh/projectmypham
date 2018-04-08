@@ -52,7 +52,7 @@
                         android:layout_marginBottom="4dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="16dp"
-                        android:text="Sản phẩm A"
+                        android:text="s"
                         android:hint="product name"
                         android:inputType="text"
                         android:id="@+id/edt_admin_add_name_product"
