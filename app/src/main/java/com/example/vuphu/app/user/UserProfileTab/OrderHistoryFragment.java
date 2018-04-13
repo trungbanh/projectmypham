@@ -66,14 +66,9 @@ public class OrderHistoryFragment extends Fragment {
         View v =  inflater.inflate(R.layout.fragment_order_history, container, false);
 
         list_order = v.findViewById(R.id.list_user_orders);
-
         gridLayoutManager  = new LinearLayoutManager(getContext());
-
         SharedPreferences pre = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
-
-
         getToken(pre.getString("token",""));
-
         return v;
     }
 
@@ -87,7 +82,6 @@ public class OrderHistoryFragment extends Fragment {
                 Gson gson = new Gson();
                 order = gson.fromJson(response.toString(),listOrder.class);
                 if (order.getHistoryOrder().size() == 0){
-
                 } else {
                     list = order.getHistoryOrder();
                     Log.i("listHis",list.get(0).getProduct());
@@ -96,11 +90,8 @@ public class OrderHistoryFragment extends Fragment {
                     list_order.setNestedScrollingEnabled(true);
                     adap = new UserOrdersAdapter.orderAdap(list, getContext());
                     list_order.setAdapter(adap);
-
                 }
-
             }
-
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.i("fail",errorResponse.toString());

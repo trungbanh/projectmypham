@@ -16,9 +16,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
@@ -34,17 +37,29 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.FileDescriptor;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
 public class AdminEditProductActivity extends AppCompatActivity {
 
 
-    private EditText edt_name_product, edt_price, edt_desc, edt_quantity, edt_id, edt_type;
-    private EditText type_product;
+    private EditText edt_name_product, edt_price, edt_desc, edt_quantity;
+    private Spinner type_product;
+
+    private String arr [] = {
+            "lotion",
+            "hair care",
+            "skin care cosmetics",
+            "nước hoa",
+            "lipstick"
+
+    };
+
     private ImageView img_product;
     private Product product;
     private FloatingActionButton btn_update_img;
+    private ArrayAdapter<String> listType ;
     private Button btn_update;
     private static final int READ_REQUEST_CODE = 42;
     private ProgressDialog progressBar;
@@ -61,11 +76,29 @@ public class AdminEditProductActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+
+        init();
+        listType = new ArrayAdapter<>(this.getApplicationContext(),android.R.layout.simple_spinner_item,arr);
+
+        listType.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        type_product.setAdapter(listType);
         pre =getSharedPreferences("data", MODE_PRIVATE);
         progressBar = new ProgressDialog(this);
         progressBar.setMessage("Đang xử lí...");
-        init();
+
         Intent intent = getIntent();
+
+        type_product.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         product = (Product) intent.getSerializableExtra("data");
 
@@ -87,24 +120,19 @@ public class AdminEditProductActivity extends AppCompatActivity {
         edt_price = findViewById(R.id.edt_admin_product_price);
         edt_desc = findViewById(R.id.edt_admin_product_content);
         edt_quantity = findViewById(R.id.edt_admin_quantity_product);
-        edt_id = findViewById(R.id.edt_admin_id_product);
-        type_product = findViewById(R.id.edt_admin_type_product);
+        type_product = findViewById(R.id.spinner_type_product);
         img_product = findViewById(R.id.img_admin_edit_product);
         btn_update_img = findViewById(R.id.btn_admin_edit_image);
         btn_update = findViewById(R.id.btn_admin_edit_product);
-        edt_type = findViewById(R.id.edt_admin_type_product);
     }
 
     private void setDataType() {
         setTitle(product.getName());
         edt_name_product.setText(product.getName());
-        edt_price.setText("" + product.getPrice());
-        edt_id.setText(product.getId());
-        edt_id.setEnabled(false);
+        edt_price.setText (product.getPrice()+ "đ");
         edt_quantity.setText("" + product.getQuatity());
-        type_product.setText(product.getType());
+        //type_product.setText(product.getType());
         edt_desc.setText(product.getDescription());
-        edt_type.setText(product.getType());
         Picasso.get().load(NetworkConst.network + "/" + product.getProductImage()
                 .replace("\\", "/")).error(R.drawable.ic_terrain_black_24dp)
                 .placeholder(R.drawable.mypham).into(img_product);
@@ -131,21 +159,9 @@ public class AdminEditProductActivity extends AppCompatActivity {
     }
 
     public void performFileSearch() {
-
-        // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file
-        // browser.
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-
-        // Filter to only show results that can be "opened", such as a
-        // file (as opposed to a list of contacts or timezones)
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        // Filter to show only images, using the image MIME data type.
-        // If one wanted to search for ogg vorbis files, the type would be "audio/ogg".
-        // To search for all documents available via installed storage providers,
-        // it would be "*/*".
         intent.setType("image/*");
-
         startActivityForResult(intent, READ_REQUEST_CODE);
     }
 
@@ -153,15 +169,7 @@ public class AdminEditProductActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode,
                                  Intent resultData) {
 
-        // The ACTION_OPEN_DOCUMENT intent was sent with the request code
-        // READ_REQUEST_CODE. If the request code seen here doesn't match, it's the
-        // response to some other intent, and the code below shouldn't run at all.
-
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            // The document selected by the user won't be returned in the intent.
-            // Instead, a URI to that document will be contained in the return intent
-            // provided to this method as a parameter.
-            // Pull that URI using resultData.getData().
 
             if (resultData != null) {
                 uri = resultData.getData();
@@ -196,7 +204,7 @@ public class AdminEditProductActivity extends AppCompatActivity {
 //        requestParams.put("price",Integer.parseInt(edt_price.getText().toString()));
         requestParams.put("quatity",Integer.parseInt(edt_quantity.getText().toString()));
         requestParams.put("description",edt_desc.getText());
-        requestParams.put("type",edt_type.getText());
+        requestParams.put("type",type_product.getSelectedItem().toString());
             AsyncHttpApi.put(pre.getString("token", null), "/products/" + product.getId(), requestParams, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity
             navigationView.inflateMenu(R.menu.activity_main_drawer);
             android.support.v4.app.FragmentTransaction transaction;
             transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.content, CatogriesFragment.newInstance());
+            transaction.replace(R.id.content, CatogriesFragment.Companion.newInstance());
             transaction.commit();
         }
         navigationView.setNavigationItemSelectedListener(this);
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity
                 else {
                     android.support.v4.app.FragmentTransaction transaction;
                     transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.content, CatogriesFragment.newInstance());
+                    transaction.replace(R.id.content, CatogriesFragment.Companion.newInstance());
                     transaction.commit();
                 }
             }
@@ -202,11 +202,11 @@ public class MainActivity extends AppCompatActivity
             setTitle("Thông tin tài khoản");
         } else if (id == R.id.nav_cato) {
             setTitle("Danh mục sản phẩm");
-            temp = CatogriesFragment.newInstance();
+            temp = CatogriesFragment.Companion.newInstance();
 
         } else if (id == R.id.nav_add_money) {
             setTitle("Nạp tiền");
-            temp = AddMoneyFragment.newInstance();
+            temp = AddMoneyFragment.Companion.newInstance();
         } else if (id == R.id.nav_admin_cato){
             setTitle("Danh mục sản phẩm");
             temp = AdminCatogoriesFragment.newInstance();

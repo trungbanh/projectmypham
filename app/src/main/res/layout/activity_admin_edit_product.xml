@@ -8,8 +8,6 @@
     android:orientation="vertical"
     android:fitsSystemWindows="true"
     tools:context="com.example.vuphu.app.admin.AdminEditProductActivity">
-
-
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,18 +27,10 @@
             <com.miguelcatalan.materialsearchview.MaterialSearchView
                 android:id="@+id/search_view"
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content" />
         </FrameLayout>
-
-
     </android.support.design.widget.AppBarLayout>
     <include layout="@layout/admin_content_edit_product"
         android:layout_width="match_parent"
-
         android:layout_height="match_parent"/>
-
-
-
-
 </android.support.design.widget.CoordinatorLayout>
