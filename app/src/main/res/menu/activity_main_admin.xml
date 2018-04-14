@@ -7,25 +7,25 @@
             <item
                 android:id="@+id/nav_admin_cato"
                 android:icon="@drawable/ic_menu_catogies"
-                android:title="Danh mục sản phẩm" />
+                android:title="@string/danhmucsanpham" />
 
             <item
                 android:id="@+id/nav_admin_orders"
                 android:icon="@drawable/ic_orders"
-                android:title="Đơn hàng" />
+                android:title="@string/donhang" />
         </menu>
     </item>
 
-    <item android:title="Tài khoản người dùng">
+    <item android:title="@string/quanlinguoidung">
         <menu>
             <item
                 android:id="@+id/nav_admin_user"
                 android:icon="@drawable/ic_menu_profile"
-                android:title="Quản lí người dùng" />
+                android:title="@string/quanlinguoidung" />
             <item
                 android:id="@+id/nav_admin_logout"
                 android:icon="@drawable/ic_menu_logout"
-                android:title="Đăng xuất" />
+                android:title="@string/dang_xuat" />
         </menu>
     </item>
 

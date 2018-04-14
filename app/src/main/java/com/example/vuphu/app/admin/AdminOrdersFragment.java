@@ -64,23 +64,17 @@ public class AdminOrdersFragment extends Fragment {
         list_order = v.findViewById(R.id.list_admin_orders);
 
         LinearLayoutManager gridLayoutManager = new LinearLayoutManager(getContext());
-
-        // get/orders
-
         list_order.setLayoutManager(gridLayoutManager);
         list_order.setHasFixedSize(true);
         loadorder();
-
-
         return v;
     }
 
     private void loadorder () {
-        AsyncHttpApi.get(pre.getString("token",""),"/orders/", null, new JsonHttpResponseHandler() {
-
+        AsyncHttpApi.get(pre.getString("token",""),"/orders/", null,
+                new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-
                 Gson gson = new Gson();
                 JSONArray jArray = response;
                 if (jArray != null) {
@@ -93,10 +87,10 @@ public class AdminOrdersFragment extends Fragment {
                         }
                     }
                 }
-                AdminOrdersAdapter.orderAdap adap = new AdminOrdersAdapter.orderAdap(list, getContext(),pre.getString("token",""));
+                AdminOrdersAdapter.orderAdap adap = new AdminOrdersAdapter.orderAdap(list,
+                        getContext(),pre.getString("token",""));
                 list_order.setAdapter(adap);
                 adap.notifyDataSetChanged();
-
             }
         });
     }

@@ -67,14 +67,10 @@ public class ProfileFragment extends Fragment {
         viewPager.setAdapter(new TabPagerAdapter(getActivity().getSupportFragmentManager(),
                 getActivity()));
         pre = getActivity().getSharedPreferences("data",MODE_PRIVATE);
-
-        // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) v.findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
 
-        getToken(pre.getString("token",""));
-
-
+        getToken(pre.getString(NetworkConst.token,""));
         name = v.findViewById(R.id.tv_user_name);
         avt = v.findViewById(R.id.img_user) ;
         money = v.findViewById(R.id.tv_user_money);
@@ -85,11 +81,8 @@ public class ProfileFragment extends Fragment {
 
     void getToken (String token) {
         AsyncHttpApi.get(token,"/account",null,new JsonHttpResponseHandler() {
-
-
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.i("onsucess",response.toString());
                 Gson gson = new Gson();
                 order = gson.fromJson(response.toString(),listOrder.class);
                 u = order.getAccountId();
@@ -99,7 +92,6 @@ public class ProfileFragment extends Fragment {
                 Picasso.get().load(NetworkConst.network+"/"+u.getAvatar().replace("\\","/")).error(R.drawable.ic_terrain_black_24dp).into(avt);
                 money.setText(order.getBalanced().toString()+"0");
             }
-
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.i("fail",errorResponse.toString());

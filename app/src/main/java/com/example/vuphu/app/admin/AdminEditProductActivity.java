@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
@@ -43,27 +44,26 @@ import cz.msebera.android.httpclient.Header;
 
 public class AdminEditProductActivity extends AppCompatActivity {
 
+    private static final int READ_REQUEST_CODE = 42;
+
+
 
     private EditText edt_name_product, edt_price, edt_desc, edt_quantity;
+    private TextView select ;
     private Spinner type_product;
-
-    private String arr [] = {
-            "lotion",
-            "hair care",
-            "skin care cosmetics",
-            "nước hoa",
-            "lipstick"
-
-    };
-
     private ImageView img_product;
     private Product product;
     private FloatingActionButton btn_update_img;
     private ArrayAdapter<String> listType ;
     private Button btn_update;
-    private static final int READ_REQUEST_CODE = 42;
-    private ProgressDialog progressBar;
+
     private SharedPreferences pre;
+    private String arr [] = {
+            "lotion",
+            "hair care",
+            "skin care cosmetics",
+            "perfume",
+            "lipstick"};
 
     protected   Uri uri;
     @SuppressLint("RestrictedApi")
@@ -76,33 +76,13 @@ public class AdminEditProductActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
-
         init();
-        listType = new ArrayAdapter<>(this.getApplicationContext(),android.R.layout.simple_spinner_item,arr);
-
-        listType.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         type_product.setAdapter(listType);
         pre =getSharedPreferences("data", MODE_PRIVATE);
-        progressBar = new ProgressDialog(this);
-        progressBar.setMessage("Đang xử lí...");
-
         Intent intent = getIntent();
-
-        type_product.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
         product = (Product) intent.getSerializableExtra("data");
-
         setDataType();
+
     }
 
     @Override
@@ -124,6 +104,9 @@ public class AdminEditProductActivity extends AppCompatActivity {
         img_product = findViewById(R.id.img_admin_edit_product);
         btn_update_img = findViewById(R.id.btn_admin_edit_image);
         btn_update = findViewById(R.id.btn_admin_edit_product);
+        select = findViewById(R.id.tv_select);
+        listType = new ArrayAdapter<>(this.getApplicationContext(),android.R.layout.simple_spinner_item,arr);
+        listType.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
     }
 
     private void setDataType() {
@@ -147,13 +130,18 @@ public class AdminEditProductActivity extends AppCompatActivity {
         btn_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                update();
+            }
+        });
+        type_product.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                select.setText(arr[position]);
+            }
 
-                progressBar.show();
-                try {
-                    update();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }
@@ -168,9 +156,7 @@ public class AdminEditProductActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode,
                                  Intent resultData) {
-
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-
             if (resultData != null) {
                 uri = resultData.getData();
                 Log.i("TAG", "Uri: " + uri.toString());
@@ -197,22 +183,19 @@ public class AdminEditProductActivity extends AppCompatActivity {
 
     }
 
-    private void update() throws IOException {
-
+    private void update() {
         RequestParams requestParams = new RequestParams();
         requestParams.put("name", edt_name_product.getText());
-//        requestParams.put("price",Integer.parseInt(edt_price.getText().toString()));
         requestParams.put("quatity",Integer.parseInt(edt_quantity.getText().toString()));
         requestParams.put("description",edt_desc.getText());
         requestParams.put("type",type_product.getSelectedItem().toString());
-            AsyncHttpApi.put(pre.getString("token", null), "/products/" + product.getId(), requestParams, new JsonHttpResponseHandler() {
+            AsyncHttpApi.put(pre.getString(NetworkConst.token, null), "/products/" + product.getId(),
+                    requestParams, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     super.onSuccess(statusCode, headers, response);
-                    progressBar.hide();
                     Toast.makeText(AdminEditProductActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
                 }
             });
-//        }
     }
 }

@@ -8,22 +8,22 @@
     <item
         android:id="@+id/nav_cato"
         android:icon="@drawable/ic_menu_catogies"
-        android:title="Danh mục sản phẩm" />
+        android:title="@string/danhmucsanpham" />
 
-    <item android:title="Tài khoản">
+    <item android:title="@string/taikhoan">
         <menu>
             <item
                 android:id="@+id/nav_profile"
                 android:icon="@drawable/ic_menu_profile"
-                android:title="Thông tin tài khoản" />
+                android:title="@string/thongtintaikhoan" />
             <item
                 android:id="@+id/nav_add_money"
                 android:icon="@drawable/ic_menu_money"
-                android:title="Nạp tiền" />
+                android:title="@string/naptien" />
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_menu_logout"
-                android:title="Đăng xuất" />
+                android:title="@string/dang_xuat" />
         </menu>
     </item>
 

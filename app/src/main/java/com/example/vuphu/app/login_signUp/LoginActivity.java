@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
+import com.example.vuphu.app.AcsynHttp.NetworkConst;
 import com.example.vuphu.app.MainActivity;
 import com.example.vuphu.app.object.SignUpToken;
 import com.example.vuphu.app.R;
@@ -27,19 +28,18 @@ import cz.msebera.android.httpclient.Header;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private SharedPreferences pre;
-    private SharedPreferences.Editor edit;
-
-    private EditText emailInput ;
-    private EditText passInput ;
-
-    private String mail ;
-    private String pass ;
-
-    SignUpToken token ;
-
     private Button login ;
     private ProgressDialog progressBar;
+    private EditText emailInput ;
+    private EditText passInput ;
+    private String mail ;
+    private String pass ;
+    private SignUpToken token ;
+
+    private SharedPreferences pre;
+    private SharedPreferences.Editor edit;
+    private Intent intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,43 +48,41 @@ public class LoginActivity extends AppCompatActivity {
         pre =getSharedPreferences("data", MODE_PRIVATE);
         edit=pre.edit();
 
-        Intent intent = getIntent() ;
-
-        login = findViewById(R.id.btn_signin);
-        progressBar = new ProgressDialog(this);
-        progressBar.setMessage("Đang xử lí...");
-
-        mail = intent.getStringExtra("email");
-        pass = intent.getStringExtra("pass");
-
+        intent = getIntent() ;
         init();
-        if (!pre.getString("token","").isEmpty() && !pre.getString("type_user","").isEmpty()){
+        Pre_process ();
+
+        if (!pre.getString(NetworkConst.token,"").isEmpty() &&
+                !pre.getString("type_user","").isEmpty()){
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         }
-
+        SiginClick ();
+    }
+    private void SiginClick (){
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("mail",emailInput.getText().toString());
-                Log.i("pass",passInput.getText().toString());
-                //progressBar.show();
-                    signIn(emailInput.getText().toString(),passInput.getText().toString());
+                signIn(emailInput.getText().toString(),passInput.getText().toString());
             }
         });
-
-
     }
 
     private void init() {
 
         emailInput = findViewById(R.id.edt_email);
         passInput = findViewById(R.id.edt_pass);
+        login = findViewById(R.id.btn_signin);
+        progressBar = new ProgressDialog(this);
+    }
+    private void Pre_process (){
 
+        progressBar.setMessage("Đang xử lí...");
+
+        mail = intent.getStringExtra("email");
+        pass = intent.getStringExtra("pass");
         emailInput.setText(mail);
         passInput.setText(pass);
-
-
     }
 
     public void signIn (String mail,String pass){
@@ -92,11 +90,8 @@ public class LoginActivity extends AppCompatActivity {
         RequestParams params = new RequestParams();
         params.put("email",mail);
         params.put("password",pass);
-
         if (!postSignIn(params).isEmpty()) {
-
             if (mail.equals("admin@admin.com")) {
-
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 edit.putString("type_user", "admin");
                 edit.commit();
@@ -118,7 +113,6 @@ public class LoginActivity extends AppCompatActivity {
     public void signUp(View view) {
         startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
     }
-
     private String postSignIn(RequestParams params) {
         AsyncHttpApi.post_logIn("/user/login",params,new JsonHttpResponseHandler() {
             @Override
@@ -127,21 +121,16 @@ public class LoginActivity extends AppCompatActivity {
                 String json = response.toString();
                 Gson gson = new Gson();
                 token = gson.fromJson(json,SignUpToken.class);
-
-                Log.i("checkToken",token.getToken());
                 edit.putString("token",token.getToken());
                 edit.putString("message",token.getMessage());
 
                 try {
                     String decode = JWTUtils.decoded(token.getToken());
-                    Log.i("messager",decode);
                     edit.putString("userId",gson.fromJson(decode,TokenId.class).getUserId());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 edit.commit();
-                //Log.i("messager",token.getMessage());
-
             }
 
             @Override
@@ -149,9 +138,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e("error",throwable.getMessage());
             }
         });
-        String token = pre.getString("token","");
-        //Toast.makeText(this, token, Toast.LENGTH_SHORT).show();
-        //Log.i("token",token);
+        String token = pre.getString(NetworkConst.token,"");
         return token;
     }
 }

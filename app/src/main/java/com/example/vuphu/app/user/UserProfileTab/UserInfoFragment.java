@@ -47,7 +47,6 @@ public class UserInfoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     private void init (View v ) {
@@ -56,19 +55,18 @@ public class UserInfoFragment extends Fragment {
         addrss = v.findViewById(R.id.edt_user_address) ;
         put = v.findViewById(R.id.btn_user_edit_info);
     }
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_user_info, container, false);
-
         pre = getActivity().getSharedPreferences("data",Context.MODE_PRIVATE);
-
         init(v);
+        UpdateList();
+        return v ;
+    }
 
+    private void UpdateList () {
         put.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,10 +75,6 @@ public class UserInfoFragment extends Fragment {
 
             }
         });
-
-
-
-        return v ;
     }
 
     private void upDateInfo (String token) {

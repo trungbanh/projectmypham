@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private MaterialSearchView searchView;
+    NavigationView navigationView ;
 
     private SharedPreferences pre;
     private SharedPreferences.Editor edit;
@@ -48,7 +49,42 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
+        pre =getSharedPreferences("data", MODE_PRIVATE);
+        edit=pre.edit();
+
+        SearchQuery();
+        initView();
+
+    }
+     private void initView () {
+         navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+         String user=pre.getString("type_user", "");
+         if (user.equals("admin")) {
+             navigationView.inflateMenu(R.menu.activity_main_admin);
+             setTitle(R.string.danhmucsanpham);
+             android.support.v4.app.FragmentTransaction transaction;
+             transaction = getSupportFragmentManager().beginTransaction();
+             transaction.replace(R.id.content, AdminCatogoriesFragment.newInstance());
+             transaction.commit();
+         }
+         else {
+             navigationView.inflateMenu(R.menu.activity_main_drawer);
+             android.support.v4.app.FragmentTransaction transaction;
+             transaction = getSupportFragmentManager().beginTransaction();
+             transaction.replace(R.id.content, CatogriesFragment.Companion.newInstance());
+             transaction.commit();
+         }
+         navigationView.setNavigationItemSelectedListener(this);
+     }
+
+    private void SearchQuery () {
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -85,49 +121,16 @@ public class MainActivity extends AppCompatActivity
             }
 
         });
-
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-
-
-        pre =getSharedPreferences("data", MODE_PRIVATE);
-        edit=pre.edit();
-        String user=pre.getString("type_user", "");
-        //set drawer
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        if (user.equals("admin")) {
-            navigationView.inflateMenu(R.menu.activity_main_admin);
-            setTitle("Danh mục sản phẩm");
-            android.support.v4.app.FragmentTransaction transaction;
-            transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.content, AdminCatogoriesFragment.newInstance());
-            transaction.commit();
-        }
-        else {
-            navigationView.inflateMenu(R.menu.activity_main_drawer);
-            android.support.v4.app.FragmentTransaction transaction;
-            transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.content, CatogriesFragment.Companion.newInstance());
-            transaction.commit();
-        }
-        navigationView.setNavigationItemSelectedListener(this);
-
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
-                //Do some magic
             }
 
             @Override
             public void onSearchViewClosed() {
                 String user=pre.getString("type_user", "");
                 if (user.equals("admin")) {
-                    setTitle("Danh mục sản phẩm");
+                    setTitle(R.string.danhmucsanpham);
                     android.support.v4.app.FragmentTransaction transaction;
                     transaction = getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.content, AdminCatogoriesFragment.newInstance());
@@ -179,45 +182,48 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
         Fragment temp = null;
-        if (id == R.id.nav_admin_logout) {
-            edit.clear();
-            edit.apply();
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            finish();
-            return true;
-        }else
-        if (id == R.id.nav_logout) {
-            edit.clear();
-            edit.apply();
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            finish();
-            return true;
+        switch (id) {
 
-        } else if (id == R.id.nav_profile) {
-            AcountId u = new AcountId();
-            temp = ProfileFragment.newInstance(u);
-            setTitle("Thông tin tài khoản");
-        } else if (id == R.id.nav_cato) {
-            setTitle("Danh mục sản phẩm");
-            temp = CatogriesFragment.Companion.newInstance();
+            case R.id.nav_admin_logout:
+                edit.clear();
+                edit.apply();
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                finish();
+                return true;
+            case R.id.nav_logout:
+                edit.clear();
+                edit.apply();
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                finish();
+                return true;
 
-        } else if (id == R.id.nav_add_money) {
-            setTitle("Nạp tiền");
-            temp = AddMoneyFragment.Companion.newInstance();
-        } else if (id == R.id.nav_admin_cato){
-            setTitle("Danh mục sản phẩm");
-            temp = AdminCatogoriesFragment.newInstance();
-        }
-        else if (id == R.id.nav_admin_orders){
-            setTitle("Đơn hàng");
-            temp = AdminOrdersFragment.newInstance();
-        }
-        else if (id == R.id.nav_admin_user){
-            setTitle("Người dùng");
-            temp = AdminUserFragment.newInstance();
+            case R.id.nav_profile :
+                AcountId u = new AcountId();
+                temp = ProfileFragment.newInstance(u);
+                setTitle(getString(R.string.thongtintaikhoan));
+                break;
+            case R.id.nav_cato :
+                setTitle(getString(R.string.danhmucsanpham));
+                temp = CatogriesFragment.Companion.newInstance();
+                break;
+            case R.id.nav_add_money:
+                setTitle(getString(R.string.naptien));
+                temp = AddMoneyFragment.Companion.newInstance();
+                break;
+            case  R.id.nav_admin_cato :
+                setTitle(R.string.danhmucsanpham);
+                temp = AdminCatogoriesFragment.newInstance();
+                break;
+            case R.id.nav_admin_orders :
+                setTitle(getString(R.string.donhang));
+                temp = AdminOrdersFragment.newInstance();
+                break;
+            case R.id.nav_admin_user :
+                setTitle(getString(R.string.quanlinguoidung));
+                temp = AdminUserFragment.newInstance();
+                break;
         }
         android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.content,temp);

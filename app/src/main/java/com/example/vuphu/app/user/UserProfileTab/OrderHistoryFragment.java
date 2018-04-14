@@ -74,8 +74,6 @@ public class OrderHistoryFragment extends Fragment {
 
     void getToken (String token) {
         AsyncHttpApi.get(token,"/account",null,new JsonHttpResponseHandler() {
-
-
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 //Log.i("onsucesshis",response.toString());
@@ -98,6 +96,4 @@ public class OrderHistoryFragment extends Fragment {
             }
         });
     }
-
-
 }

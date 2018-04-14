@@ -46,10 +46,8 @@ public class AdminProductApdater {
             tv_price = itemView.findViewById(R.id.tv_admin_price);
             btn_edit = itemView.findViewById(R.id.btn_admin_edit);
             btn_delete = itemView.findViewById(R.id.btn_admin_delete);
-
         }
     }
-
     public static class productAdap extends RecyclerView.Adapter<productViewHolder>{
 
         ArrayList<Product> list;
@@ -70,7 +68,7 @@ public class AdminProductApdater {
         @Override
         public void onBindViewHolder(productViewHolder holder, final int position) {
             holder.tv_name.setText(list.get(position).getName());
-            holder.tv_price.setText(""+list.get(position).getPrice());
+            holder.tv_price.setText(String.valueOf(list.get(position).getPrice())+"đ");
             Picasso.get().load(NetworkConst.network+"/"+list.get(position).getProductImage().replace("\\","/")).error(R.drawable.ic_terrain_black_24dp).placeholder(R.drawable.mypham).into(holder.img_product);
 
             holder.btn_delete.setOnClickListener(new View.OnClickListener() {

@@ -159,21 +159,15 @@ public class AdminAddProductActivity extends AppCompatActivity {
     }
 
     private void addProduct () {
-
         File im = new File (getRealPathFromURI(uri));
-
-
         RequestBody image = RequestBody.create(MediaType.parse("image/*"),im);
-
         RequestBody name = RequestBody.create(MediaType.parse("text/plain"),edt_name_product.getText().toString());
         RequestBody price = RequestBody.create(MediaType.parse("text/plain"),edt_price.getText().toString());
         RequestBody quatity = RequestBody.create(MediaType.parse("text/plain"),edt_quantity.getText().toString());
         RequestBody description = RequestBody.create(MediaType.parse("text/plain"),edt_desc.getText().toString());
         RequestBody type = RequestBody.create(MediaType.parse("text/plain"),edt_type.getText().toString());
-
-
         ApiUtils.getAPIService().upLoadProduct(
-                    "Bearer "+ pre.getString("token",""),
+                    "Bearer "+ pre.getString(NetworkConst.token,""),
                     image,name,price,quatity,description,type).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {

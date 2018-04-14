@@ -31,18 +31,21 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class AdminUserFragment extends Fragment {
 
-    private ArrayList<AcountId> list = new ArrayList<>();
+    private GridLayoutManager gridLayoutManager;
+    private ItemOffsetDecoration itemDecoration;
+
+    private ArrayList<AcountId> list ;
     private RecyclerView list_users;
     private SharedPreferences pre;
     public AdminUserFragment() {
         // Required empty public constructor
     }
 
-   
+
     public static AdminUserFragment newInstance() {
         AdminUserFragment fragment = new AdminUserFragment();
         Bundle args = new Bundle();
-      
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,7 +53,7 @@ public class AdminUserFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       
+
     }
 
     @Override
@@ -59,22 +62,23 @@ public class AdminUserFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_admin_user, container, false);
         pre =getActivity().getSharedPreferences("data", MODE_PRIVATE);
-
-
-        list_users = v.findViewById(R.id.list_admin_user);
-        list_users.setHasFixedSize(true);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
-        list_users.setLayoutManager(gridLayoutManager);
-
-
-        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getContext(), R.dimen.item_offset);
-        list_users.addItemDecoration(itemDecoration);
+        init(v);
         loadUser();
         return v;
     }
+    private void init (View v) {
+        list_users = v.findViewById(R.id.list_admin_user);
+        list_users.setHasFixedSize(true);
+        gridLayoutManager = new GridLayoutManager(getContext(),2);
+        list_users.setLayoutManager(gridLayoutManager);
+        itemDecoration = new ItemOffsetDecoration(getContext(), R.dimen.item_offset);
+        list_users.addItemDecoration(itemDecoration);
+        list = new ArrayList<>();
+    }
 
     private void loadUser () {
-        AsyncHttpApi.get(pre.getString("token",""),"/user", null, new JsonHttpResponseHandler() {
+        AsyncHttpApi.get(pre.getString("token",""),"/user", null,
+                new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -94,11 +98,7 @@ public class AdminUserFragment extends Fragment {
                 AdminUserApdater.userAdap adap = new AdminUserApdater.userAdap (list,getContext());
                 list_users.setAdapter(adap);
                 adap.notifyDataSetChanged();
-
             }
         });
     }
-
-
-
 }
