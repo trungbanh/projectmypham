@@ -10,7 +10,7 @@ public class Payment {
     private String message;
     @SerializedName("createdOrder")
     @Expose
-    private CreatedOrder createdOrder;
+    private com.example.vuphu.app.object.CreatedOrder createdOrder;
 
     public String getMessage() {
         return message;
@@ -20,11 +20,11 @@ public class Payment {
         this.message = message;
     }
 
-    public CreatedOrder getCreatedOrder() {
+    public com.example.vuphu.app.object.CreatedOrder getCreatedOrder() {
         return createdOrder;
     }
 
-    public void setCreatedOrder(CreatedOrder createdOrder) {
+    public void setCreatedOrder(com.example.vuphu.app.object.CreatedOrder createdOrder) {
         this.createdOrder = createdOrder;
     }
 

@@ -11,27 +11,20 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg"
         android:theme="@style/AppTheme.AppBarOverlay">
-    <FrameLayout
-    android:layout_width="match_parent"
-
-    android:layout_height="wrap_content">
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:background="@drawable/bg"
-        android:layout_height="?attr/actionBarSize"
-        app:popupTheme="@style/AppTheme.PopupOverlay" />
-    <com.miguelcatalan.materialsearchview.MaterialSearchView
-        android:id="@+id/search_view"
-        android:layout_width="match_parent"
-
-        android:layout_height="wrap_content" />
-</FrameLayout>
-
-
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:background="@drawable/bg"
+                android:layout_height="?attr/actionBarSize"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+            <com.miguelcatalan.materialsearchview.MaterialSearchView
+                android:id="@+id/search_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
     </android.support.design.widget.AppBarLayout>
-
     <include layout="@layout/content_main" />
-
-
 </android.support.design.widget.CoordinatorLayout>

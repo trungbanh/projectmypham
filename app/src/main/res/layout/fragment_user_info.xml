@@ -14,7 +14,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="full name"
+            android:hint="@string/full_name"
             android:text=""
             android:editable="false"
             android:inputType="textPersonName"
@@ -28,8 +28,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="phone number"
-
+            android:hint="@string/phone_number"
             android:text=""
             android:editable="false"
             android:inputType="phone"
@@ -44,26 +43,23 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="address"
-
+            android:hint="@string/address"
             android:text=""
             android:editable="false"
             android:inputType="textPostalAddress"
             android:id="@+id/edt_user_address"
             />
     </android.support.design.widget.TextInputLayout>
-
     <Button
         android:id="@+id/btn_user_edit_info"
         android:layout_width="120dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
         android:elevation="8dp"
-
         android:translationZ="8dp"
         android:fontFamily="sans-serif-light"
         android:background="@drawable/btn_bg"
         android:textColor="@android:color/white"
-        android:text="update profille" />
+        android:text="@string/update_profille" />
 
 </LinearLayout>

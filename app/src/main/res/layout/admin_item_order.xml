@@ -15,24 +15,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:weightSum="2"
         android:orientation="horizontal">
         <TextView
-        android:layout_width="match_parent"
-        android:layout_marginRight="6dp"
-        android:layout_marginLeft="16dp"
+            android:layout_width="match_parent"
+            android:layout_marginRight="6dp"
+            android:layout_marginLeft="16dp"
             android:layout_weight="1"
-        android:layout_marginBottom="6dp"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:textAlignment="textStart"
-        android:id="@+id/tv_admin_order_name"
-        android:fontFamily="sans-serif-medium"
-        android:lines="1"
-        android:textColor="@android:color/black"
-        android:text="Nguyễn Thị B"/>
+            android:layout_marginBottom="6dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textAlignment="textStart"
+            android:id="@+id/tv_admin_order_name"
+            android:fontFamily="sans-serif-medium"
+            android:lines="1"
+            android:textColor="@android:color/black"
+            android:text="Nguyễn Thị B"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_marginRight="6dp"
@@ -77,7 +76,6 @@
             android:id="@+id/tv_admin_order_quantity"
             android:fontFamily="sans-serif"
             android:lines="1"
-
             android:text="Quantity: 5"/>
 
     </LinearLayout>
@@ -87,8 +85,7 @@
             android:layout_marginLeft="16dp"
             android:background="@drawable/bg"
             android:layout_marginRight="16dp"
-            android:layout_height="1dp">
-        </LinearLayout>
+            android:layout_height="1dp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"

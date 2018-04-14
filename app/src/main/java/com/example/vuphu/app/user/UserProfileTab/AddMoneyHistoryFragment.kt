@@ -14,12 +14,8 @@ import android.view.ViewGroup
 import com.example.vuphu.app.AcsynHttp.AsyncHttpApi
 import com.example.vuphu.app.R
 import com.example.vuphu.app.`object`.HistoryDeposit
-import com.example.vuphu.app.`object`.HistoryOrder
-import com.example.vuphu.app.`object`.addMoney
 import com.example.vuphu.app.`object`.listOrder
-import com.example.vuphu.app.`object`.order
 import com.example.vuphu.app.user.adapter.AddMoneyAdapter
-import com.example.vuphu.app.user.adapter.UserOrdersAdapter
 import com.google.gson.Gson
 import com.loopj.android.http.JsonHttpResponseHandler
 

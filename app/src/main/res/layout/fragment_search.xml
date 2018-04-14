@@ -11,7 +11,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="4dp"
-        tools:listitem="@layout/item_product">
-
-    </android.support.v7.widget.RecyclerView>
+        tools:listitem="@layout/item_product"/>
 </LinearLayout>

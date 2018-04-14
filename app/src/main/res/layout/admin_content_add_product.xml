@@ -8,7 +8,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <FrameLayout
             android:layout_width="match_parent"
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             app:cardElevation="0dp"
             android:layout_weight="1"
-            android:layout_height="match_parent">
+            android:layout_height="0dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="vertical"
@@ -60,24 +60,27 @@
                         android:fontFamily="sans-serif"
                         android:textSize="20sp"/>
                 </android.support.design.widget.TextInputLayout>
-                <android.support.design.widget.TextInputLayout
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                    <TextView
+                        android:id="@+id/tv_type"
+                        android:text="@string/chon"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:textSize="16sp"
                         android:layout_marginTop="4dp"
                         android:layout_marginBottom="4dp"
                         android:layout_marginLeft="16dp"
-                        android:layout_marginRight="16dp"
-                        android:text="Dùng ngoài"
-                        android:hint="type"
-                        android:inputType="text"
-                        android:id="@+id/edt_admin_add_type_product"
-                        android:textColor="@android:color/black"
-                        android:fontFamily="sans-serif"
-                        android:textSize="20sp"/>
-                </android.support.design.widget.TextInputLayout>
+                        android:layout_marginRight="16dp"/>
+                    <Spinner
+                        android:id="@+id/spinner_add_type_product"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"/>
+
+                </LinearLayout>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -90,7 +93,7 @@
                         android:layout_marginRight="16dp"
                         android:text="200000"
                         android:inputType="numberDecimal"
-                        android:hint="price"
+                        android:hint="@string/price"
                         android:id="@+id/edt_admin_add_product_price"
                         android:textColor="@android:color/black"
                         android:fontFamily="sans-serif"
@@ -107,7 +110,7 @@
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="16dp"
                         android:text="1000"
-                        android:hint="quatity"
+                        android:hint="@string/quatity"
                         android:inputType="numberDecimal"
                         android:id="@+id/edt_admin_add_quantity_product"
                         android:textColor="@android:color/black"
@@ -124,9 +127,7 @@
                         android:layout_marginBottom="4dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="16dp"
-
-
-                        android:hint="Giới thiệu"
+                        android:hint="@string/gi_i_thi_u"
                         android:lines="8"
                         android:textAlignment="textStart"
                         android:id="@+id/edt_admin_add_product_content"
@@ -145,11 +146,8 @@
                     android:fontFamily="sans-serif-light"
                     android:background="@drawable/btn_bg"
                     android:textColor="@android:color/white"
-                    android:text="ADD" />
+                    android:text="@string/add" />
             </LinearLayout>
         </android.support.v7.widget.CardView>
-
-
     </LinearLayout>
-
 </ScrollView>

@@ -1,29 +1,13 @@
 package com.example.vuphu.app.user.adapter
 
 import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
-import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
-
 import com.example.vuphu.app.R
-import com.example.vuphu.app.admin.AdminEditProductActivity
-import com.example.vuphu.app.`object`.HistoryDeposit
 import com.example.vuphu.app.`object`.HistoryOrder
-import com.example.vuphu.app.`object`.listOrder
-import com.example.vuphu.app.`object`.order
-
-import java.util.ArrayList
-
-/**
- * Created by vuphu on 4/1/2018.
- */
 
 class UserOrdersAdapter {
 
@@ -40,8 +24,6 @@ class UserOrdersAdapter {
             tv_date = itemView.findViewById(R.id.tv_user_order_date)
             tv_price = itemView.findViewById(R.id.tv_user_order_price)
             tv_status = itemView.findViewById(R.id.tv_user_order_status)
-
-
         }
     }
 

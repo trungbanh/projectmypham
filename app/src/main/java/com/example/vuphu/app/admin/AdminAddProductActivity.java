@@ -16,9 +16,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vuphu.app.AcsynHttp.NetworkConst;
@@ -39,10 +43,18 @@ public class AdminAddProductActivity extends AppCompatActivity {
 
 
     private EditText edt_name_product, edt_price, edt_desc,edt_quantity;
-    private EditText edt_type;
+    private TextView tvtype;
+    private Spinner edt_type;
     private ImageView img_product;
     private FloatingActionButton btn_add_img;
     private Button btn_add;
+
+    private String arr [] = {
+            "lotion",
+            "hair care",
+            "skin care cosmetics",
+            "perfume",
+            "lipstick"};
 
     private SharedPreferences pre;
     protected   Uri uri;
@@ -81,12 +93,28 @@ public class AdminAddProductActivity extends AppCompatActivity {
         edt_quantity = findViewById(R.id.edt_admin_add_quantity_product);
         btn_add_img =findViewById(R.id.btn_admin_add_image);
         btn_add = findViewById(R.id.btn_admin_add_product);
-        edt_type = findViewById(R.id.edt_admin_add_type_product);
+        edt_type = findViewById(R.id.spinner_add_type_product);
         img_product = findViewById(R.id.img_admin_add_product);
+        tvtype = findViewById(R.id.tv_type);
     }
 
     private void setDataType() {
 
+        ArrayAdapter<String> adapter= new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item,arr);
+        adapter.setDropDownViewResource
+                (android.R.layout.simple_list_item_single_choice);
+        edt_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tvtype.setText(arr[position]);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         btn_add_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,7 +159,7 @@ public class AdminAddProductActivity extends AppCompatActivity {
         RequestBody price = RequestBody.create(MediaType.parse("text/plain"),edt_price.getText().toString());
         RequestBody quatity = RequestBody.create(MediaType.parse("text/plain"),edt_quantity.getText().toString());
         RequestBody description = RequestBody.create(MediaType.parse("text/plain"),edt_desc.getText().toString());
-        RequestBody type = RequestBody.create(MediaType.parse("text/plain"),edt_type.getText().toString());
+        RequestBody type = RequestBody.create(MediaType.parse("text/plain"),tvtype.getText().toString());
         ApiUtils.getAPIService().upLoadProduct(
                     "Bearer "+ pre.getString(NetworkConst.token,""),
                     image,name,price,quatity,description,type).enqueue(new Callback<Void>() {

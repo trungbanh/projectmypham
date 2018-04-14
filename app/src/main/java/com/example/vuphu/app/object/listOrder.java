@@ -1,5 +1,8 @@
 package com.example.vuphu.app.object;
 
+import com.example.vuphu.app.object.AcountId;
+import com.example.vuphu.app.object.HistoryDeposit;
+import com.example.vuphu.app.object.HistoryOrder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -21,7 +24,7 @@ public class listOrder {
     private String id;
     @SerializedName("accountId")
     @Expose
-    private AcountId accountId;
+    private com.example.vuphu.app.object.AcountId accountId;
     @SerializedName("__v")
     @Expose
     private Integer v;
@@ -34,11 +37,11 @@ public class listOrder {
         this.balanced = balanced;
     }
 
-    public List<HistoryDeposit> getHistoryDeposit() {
+    public List<com.example.vuphu.app.object.HistoryDeposit> getHistoryDeposit() {
         return historyDeposit;
     }
 
-    public void setHistoryDeposit(List<HistoryDeposit> historyDeposit) {
+    public void setHistoryDeposit(List<com.example.vuphu.app.object.HistoryDeposit> historyDeposit) {
         this.historyDeposit = historyDeposit;
     }
 

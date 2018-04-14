@@ -12,17 +12,14 @@
         android:layout_height="wrap_content"
         android:padding="4dp"
         tools:listitem="@layout/admin_item_product">
-
     </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.FloatingActionButton
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:fabSize="normal"
         android:layout_margin="10dp"
         android:id="@+id/fab_add"
-
         android:src="@drawable/ic_add_black_24dp"
         tools:ignore="MissingConstraints"
         android:layout_gravity="bottom|end"/>

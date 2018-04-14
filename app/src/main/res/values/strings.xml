@@ -17,4 +17,23 @@
     <string name="quanlinguoidung">user management</string>
     <string name="dang_xuat">log out</string>
     <string name="taikhoan">accounts</string>
+    <string name="email">Email</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="signin">Signin</string>
+    <string name="signup">Signup</string>
+    <string name="nick_name">Nick name</string>
+    <string name="gi_i_thi_u">Giới thiệu</string>
+    <string name="price">price</string>
+    <string name="chon">chọn loại</string>
+    <string name="quatity">quatity</string>
+    <string name="add">ADD</string>
+    <string name="decprition">Decprition</string>
+    <string name="update">UpDate</string>
+    <string name="money">Money</string>
+    <string name="all_product">All Product</string>
+    <string name="phone_number">phone number</string>
+    <string name="address">address</string>
+    <string name="update_profille">update profille</string>
+    <string name="full_name">full name</string>
 </resources>
