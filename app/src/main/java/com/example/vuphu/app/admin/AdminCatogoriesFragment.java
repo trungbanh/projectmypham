@@ -18,8 +18,6 @@ import com.example.vuphu.app.ItemOffsetDecoration;
 import com.example.vuphu.app.R;
 import com.example.vuphu.app.admin.adapter.AdminProductApdater;
 import com.example.vuphu.app.object.Product;
-import com.example.vuphu.app.user.adapter.ProductApdater;
-import com.example.vuphu.app.user.adapter.ViewPagerAdapter;
 import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -87,7 +85,6 @@ public class AdminCatogoriesFragment extends Fragment {
             }
         });
     }
-
     private void loafProduct () {
         AsyncHttpApi.get(pre.getString(NetworkConst.token,""),"/products/", null,
                 new JsonHttpResponseHandler() {
@@ -95,17 +92,19 @@ public class AdminCatogoriesFragment extends Fragment {
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 Gson gson = new Gson();
                 JSONArray jArray = response;
+                //Log.i("productID",response.toString());
                 if (jArray != null) {
                     for (int i=0;i<jArray.length();i++){
                         try {
                             product.add(gson.fromJson(jArray.get(i).toString(),Product.class));
+                            Log.i("productID",product.get(i).getId());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 }
                 AdminProductApdater.productAdap adap = new AdminProductApdater.productAdap(product,
-                        getContext(),pre.getString("token","") );
+                        getContext(),pre.getString(NetworkConst.token,"") );
                 list_product.setAdapter(adap);
                 adap.notifyDataSetChanged();
             }

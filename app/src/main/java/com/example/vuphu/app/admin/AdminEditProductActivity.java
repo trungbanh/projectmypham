@@ -2,14 +2,15 @@ package com.example.vuphu.app.admin;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
 import com.example.vuphu.app.AcsynHttp.NetworkConst;
 import com.example.vuphu.app.R;
+import com.example.vuphu.app.RetrofitAPI.ApiUtils;
 import com.example.vuphu.app.object.Product;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -35,12 +37,18 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.InputStream;
 
 import cz.msebera.android.httpclient.Header;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AdminEditProductActivity extends AppCompatActivity {
 
@@ -80,7 +88,16 @@ public class AdminEditProductActivity extends AppCompatActivity {
         type_product.setAdapter(listType);
         pre =getSharedPreferences("data", MODE_PRIVATE);
         Intent intent = getIntent();
-        product = (Product) intent.getSerializableExtra("data");
+
+        product = new Product();
+        if (intent!=null) {
+            product.setId(intent.getStringExtra("productID"));
+            product.setName(intent.getStringExtra("productNAME"));
+            product.setPrice(intent.getIntExtra("productPRICE",0));
+            product.setQuatity(intent.getIntExtra("productQUATITY",0));
+            product.setDescription(intent.getStringExtra("productDES"));
+            product.setProductImage(intent.getStringExtra("productIMAGE"));
+        }
         setDataType();
 
     }
@@ -112,8 +129,8 @@ public class AdminEditProductActivity extends AppCompatActivity {
     private void setDataType() {
         setTitle(product.getName());
         edt_name_product.setText(product.getName());
-        edt_price.setText (product.getPrice()+ "đ");
-        edt_quantity.setText("" + product.getQuatity());
+        edt_price.setText (String.valueOf(product.getPrice()));
+        edt_quantity.setText(String.valueOf(product.getQuatity()));
         //type_product.setText(product.getType());
         edt_desc.setText(product.getDescription());
         Picasso.get().load(NetworkConst.network + "/" + product.getProductImage()
@@ -130,7 +147,7 @@ public class AdminEditProductActivity extends AppCompatActivity {
         btn_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                update();
+                UpdateProduct();
             }
         });
         type_product.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -145,57 +162,62 @@ public class AdminEditProductActivity extends AppCompatActivity {
             }
         });
     }
-
     public void performFileSearch() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/*");
-        startActivityForResult(intent, READ_REQUEST_CODE);
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, 0);
     }
-
     @Override
-    public void onActivityResult(int requestCode, int resultCode,
-                                 Intent resultData) {
-        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            if (resultData != null) {
-                uri = resultData.getData();
-                Log.i("TAG", "Uri: " + uri.toString());
-                try {
-                    showImage(uri);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            uri = data.getData();
+            Log.i("link",uri.toString());
+            try {
+                final InputStream imageStream = getContentResolver().openInputStream(uri);
+                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                img_product.setImageBitmap(selectedImage);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
             }
+        }else {
+            Toast.makeText(this, "You haven't picked Image",Toast.LENGTH_LONG).show();
         }
     }
-
-    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
-        ParcelFileDescriptor parcelFileDescriptor =
-                getContentResolver().openFileDescriptor(uri, "r");
-        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-        parcelFileDescriptor.close();
-        return image;
+    private void UpdateProduct () {
+        File im = new File (getRealPathFromURI(uri));
+        RequestBody image = RequestBody.create(MediaType.parse("image/*"),im);
+        RequestBody name = RequestBody.create(MediaType.parse("text/plain"),edt_name_product.getText().toString());
+        RequestBody price = RequestBody.create(MediaType.parse("text/plain"),edt_price.getText().toString());
+        RequestBody quatity = RequestBody.create(MediaType.parse("text/plain"),edt_quantity.getText().toString());
+        RequestBody description = RequestBody.create(MediaType.parse("text/plain"),edt_desc.getText().toString());
+        RequestBody type = RequestBody.create(MediaType.parse("text/plain"),select.getText().toString());
+        ApiUtils.getAPIService().upDateProduct(
+                "Bearer "+ pre.getString(NetworkConst.token,""),
+                image,name,price,quatity,description,type).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.i("se",response.message());
+                Log.i("se",response.isSuccessful()+"");
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.i("sf",t.getMessage());
+            }
+        });
     }
-
-    private void showImage(Uri uri) throws IOException {
-        img_product.setImageBitmap(getBitmapFromUri(uri));
-
-    }
-
-    private void update() {
-        RequestParams requestParams = new RequestParams();
-        requestParams.put("name", edt_name_product.getText());
-        requestParams.put("quatity",Integer.parseInt(edt_quantity.getText().toString()));
-        requestParams.put("description",edt_desc.getText());
-        requestParams.put("type",type_product.getSelectedItem().toString());
-            AsyncHttpApi.put(pre.getString(NetworkConst.token, null), "/products/" + product.getId(),
-                    requestParams, new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    super.onSuccess(statusCode, headers, response);
-                    Toast.makeText(AdminEditProductActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
-                }
-            });
+    private String getRealPathFromURI(Uri contentURI) {
+        String result;
+        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) {
+            result = contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            result = cursor.getString(idx);
+            cursor.close();
+        }
+        return result;
     }
 }

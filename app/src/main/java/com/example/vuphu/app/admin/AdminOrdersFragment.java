@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
 import com.example.vuphu.app.R;
 import com.example.vuphu.app.admin.adapter.AdminOrdersAdapter;
-import com.example.vuphu.app.admin.adapter.AdminProductApdater;
-import com.example.vuphu.app.object.Product;
 import com.example.vuphu.app.object.order;
 import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;

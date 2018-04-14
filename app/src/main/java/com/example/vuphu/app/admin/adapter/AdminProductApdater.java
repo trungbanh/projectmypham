@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
 import com.example.vuphu.app.AcsynHttp.NetworkConst;
@@ -23,6 +22,7 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
@@ -97,7 +97,14 @@ public class AdminProductApdater {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, AdminEditProductActivity.class);
-                    intent.putExtra("data", list.get(position));
+                    intent.putExtra("productID",list.get(position).getId());
+                    intent.putExtra("productNAME",list.get(position).getName());
+                    intent.putExtra("productPRICE",list.get(position).getPrice());
+                    intent.putExtra("productTYPE",list.get(position).getType());
+                    intent.putExtra("productQUATITY",list.get(position).getQuatity());
+                    intent.putExtra("productDES",list.get(position).getDescription());
+                    intent.putExtra("productIMAGE",list.get(position).getProductImage());
+
                     context.startActivity(intent);
                 }
             });

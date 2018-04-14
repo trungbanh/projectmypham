@@ -2,11 +2,8 @@ package com.example.vuphu.app.user.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +17,7 @@ import com.example.vuphu.app.user.DetailProductActivity;
 import com.squareup.picasso.Picasso;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -58,19 +56,27 @@ public class ProductApdater {
         }
 
         @Override
-        public void onBindViewHolder(productViewHolder holder, final int position) {
+        public void onBindViewHolder(productViewHolder holder,final int position) {
             holder.tv_name.setText(list.get(position).getName());
+            Log.i("list",list.get(position).toString());
             holder.tv_price.setText(String.valueOf(list.get(position).getPrice()));
-
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(context, DetailProductActivity.class);
-                    intent.putExtra("data",list.get(position));
-                    context.startActivity(intent);
+                    try {
+                        Intent intent = new Intent(context, DetailProductActivity.class);
+                        intent.putExtra("productID",list.get(position).getId());
+                        intent.putExtra("productNAME",list.get(position).getId());
+                        intent.putExtra("productPRICE",list.get(position).getId());
+                        intent.putExtra("productTYPE",list.get(position).getId());
+                        intent.putExtra("productQUANLITY",list.get(position).getId());
+                        intent.putExtra("productIMAGE",list.get(position).getId());
+                        intent.putExtra("productDES",list.get(position).getId());
+
+                        context.startActivity(intent);
+                    }catch (Exception e) {}
                 }
             });
-
             Log.i("image",list.get(position).getProductImage());
             Picasso.get().load(NetworkConst.network+"/"+list.get(position).getProductImage().replace("\\","/")).error(R.drawable.ic_terrain_black_24dp).placeholder(R.drawable.mypham).into(holder.img_product);
         }

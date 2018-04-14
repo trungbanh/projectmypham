@@ -2,14 +2,10 @@ package com.example.vuphu.app.user;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,12 +15,6 @@ import com.example.vuphu.app.AcsynHttp.NetworkConst;
 import com.example.vuphu.app.R;
 import com.example.vuphu.app.object.Product;
 import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class DetailProductActivity extends AppCompatActivity {
 
@@ -48,26 +38,20 @@ public class DetailProductActivity extends AppCompatActivity {
 
         setTitle(title.getName());
 
-        title.getProductId();
-
-
-
+        title.getId();
         imageView = findViewById(R.id.img_detail_product);
         Picasso.get().load(NetworkConst.network+"/"+title.getProductImage().replace("\\","/")).error(R.drawable.ic_terrain_black_24dp).placeholder(R.drawable.mypham).into(imageView);
 
         price = findViewById(R.id.tv_price);
         price.setText("Giá: "+title.getPrice()+" đ");
-
         desprition = findViewById(R.id.tv_description);
-
         desprition.setText(title.getDescription());
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), BuyProductActivity.class);
-                intent.putExtra("productId",title);
+                intent.putExtra("productId", String.valueOf(title));
                 startActivity(intent);
             }
         });
