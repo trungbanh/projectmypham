@@ -9,7 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
 import com.example.vuphu.app.AcsynHttp.NetworkConst;
@@ -19,8 +22,10 @@ import com.example.vuphu.app.object.AcountId;
 import com.example.vuphu.app.user.adapter.TabPagerAdapter;
 import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
@@ -37,7 +42,10 @@ public class ProfileFragment extends Fragment {
     private AcountId u ;
     private TextView money ;
     private listOrder order;
-
+    private EditText nameedt ;
+    private EditText phone ;
+    private EditText addrss ;
+    private Button put ;
 
     public ProfileFragment() {
 
@@ -62,20 +70,69 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_profile, container, false);
-
-        ViewPager viewPager = (ViewPager) v.findViewById(R.id.pager);
-        viewPager.setAdapter(new TabPagerAdapter(getActivity().getSupportFragmentManager(),
-                getActivity()));
         pre = getActivity().getSharedPreferences("data",MODE_PRIVATE);
-        TabLayout tabLayout = (TabLayout) v.findViewById(R.id.tab_layout);
-        tabLayout.setupWithViewPager(viewPager);
 
         getToken(pre.getString(NetworkConst.token,""));
+        init(v);
+        UpdateList();
+
+        return v;
+    }
+    private void init (View v ) {
         name = v.findViewById(R.id.tv_user_name);
         avt = v.findViewById(R.id.img_user) ;
         money = v.findViewById(R.id.tv_user_money);
+        nameedt = v.findViewById(R.id.edt_user_name);
+        phone = v.findViewById(R.id.edt_user_phoneNumber);
+        addrss = v.findViewById(R.id.edt_user_address) ;
+        put = v.findViewById(R.id.btn_user_edit_info);
+    }
 
-        return v;
+    private void UpdateList () {
+        put.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                upDateInfo(pre.getString("token",""));
+                Toast.makeText(getActivity(), "update complete!!!", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+    private void upDateInfo (String token) {
+        AsyncHttpApi.put(token,"/user",getPamrams(),new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+
+                Log.i("error_put",response.toString());
+                Gson gson = new Gson();
+                String mes = gson.fromJson(response.toString(),String.class);
+                if (mes.equals("User updated!")) {
+
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Log.e("error_put",throwable.getMessage());
+            }
+        });
+    }
+
+    private RequestParams getPamrams () {
+        RequestParams params = new RequestParams();
+
+        String pname = name.getText().toString();
+        String pphone = phone.getText().toString();
+        String paddrs = addrss.getText().toString();
+
+        params.put("address",paddrs);
+        params.put("name",pname);
+        params.put("phone",pphone);
+
+        return params;
     }
 
 
@@ -86,8 +143,6 @@ public class ProfileFragment extends Fragment {
                 Gson gson = new Gson();
                 order = gson.fromJson(response.toString(),listOrder.class);
                 u = order.getAccountId();
-
-                Log.i("onsucess",order.getBalanced().toString());
                 name.setText(u.getName());
                 Picasso.get().load(NetworkConst.network+"/"+u.getAvatar().replace("\\","/")).error(R.drawable.ic_terrain_black_24dp).into(avt);
                 money.setText(order.getBalanced().toString()+"0");

@@ -43,9 +43,6 @@
             android:name=".admin.AdminEditProductActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".admin.AdminInfoUserActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".user.BuyProductActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DialogActivityTheme" />

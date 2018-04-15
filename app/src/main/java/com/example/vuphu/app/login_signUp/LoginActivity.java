@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -76,15 +77,21 @@ public class LoginActivity extends AppCompatActivity {
         progressBar = new ProgressDialog(this);
     }
     private void Pre_process (){
-
         progressBar.setMessage("Đang xử lí...");
-
         mail = intent.getStringExtra("email");
         pass = intent.getStringExtra("pass");
         emailInput.setText(mail);
+        if(TextUtils.isEmpty(emailInput.getText().toString())) {
+            emailInput.setError("cant be empty");
+        }
+        if (emailInput.getText().toString().compareTo("@gmail.com")!= 0){
+            emailInput.setError("input must be mail");
+        }
         passInput.setText(pass);
+        if(TextUtils.isEmpty(passInput.getText().toString())) {
+            passInput.setError("cant be empty");
+        }
     }
-
     public void signIn (String mail,String pass){
 
         RequestParams params = new RequestParams();
@@ -109,7 +116,6 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "incorrect email or password", Toast.LENGTH_SHORT).show();
         }
     }
-
     public void signUp(View view) {
         startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
     }
@@ -123,7 +129,6 @@ public class LoginActivity extends AppCompatActivity {
                 token = gson.fromJson(json,SignUpToken.class);
                 edit.putString("token",token.getToken());
                 edit.putString("message",token.getMessage());
-
                 try {
                     String decode = JWTUtils.decoded(token.getToken());
                     edit.putString("userId",gson.fromJson(decode,TokenId.class).getUserId());
@@ -132,7 +137,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 edit.commit();
             }
-
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 Log.e("error",throwable.getMessage());

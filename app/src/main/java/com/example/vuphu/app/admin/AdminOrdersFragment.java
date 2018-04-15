@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
+import com.example.vuphu.app.AcsynHttp.NetworkConst;
 import com.example.vuphu.app.R;
+import com.example.vuphu.app.RetrofitAPI.ApiUtils;
 import com.example.vuphu.app.admin.adapter.AdminOrdersAdapter;
 import com.example.vuphu.app.object.order;
 import com.google.gson.Gson;
@@ -21,35 +23,32 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 
 
 public class AdminOrdersFragment extends Fragment {
 
-
     private ArrayList<order> list = new ArrayList<>();
     private RecyclerView list_order;
     private SharedPreferences pre;
     public AdminOrdersFragment() {
-
     }
-
-
     public static AdminOrdersFragment newInstance() {
         AdminOrdersFragment fragment = new AdminOrdersFragment();
         Bundle args = new Bundle();
-
         fragment.setArguments(args);
         return fragment;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -64,31 +63,30 @@ public class AdminOrdersFragment extends Fragment {
         LinearLayoutManager gridLayoutManager = new LinearLayoutManager(getContext());
         list_order.setLayoutManager(gridLayoutManager);
         list_order.setHasFixedSize(true);
-        loadorder();
+        loadOrder();
         return v;
     }
-
-    private void loadorder () {
-        AsyncHttpApi.get(pre.getString("token",""),"/orders/", null,
-                new JsonHttpResponseHandler() {
+    private void loadOrder () {
+        ApiUtils.getAPIService().adminGetOrder("Bearer "+pre.getString(NetworkConst.token,"")).enqueue(new Callback<List<order>>() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                Gson gson = new Gson();
-                JSONArray jArray = response;
-                if (jArray != null) {
-                    for (int i=0;i<jArray.length();i++){
-                        try {
-                            list.add(gson.fromJson(jArray.get(i).toString(),order.class));
-                            Log.i("order",jArray.get(i).toString());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+            public void onResponse(Call<List<order>> call, Response<List<order>> response) {
+
+                List<order> jArray = response.body();
+                if (response.isSuccessful()) {
+                    for (int i=0;i<=jArray.size();i++){
+
+                        list.add(jArray.get(i));
+                        Log.i("order",jArray.get(i).toString());
                     }
                 }
                 AdminOrdersAdapter.orderAdap adap = new AdminOrdersAdapter.orderAdap(list,
                         getContext(),pre.getString("token",""));
                 list_order.setAdapter(adap);
                 adap.notifyDataSetChanged();
+            }
+            @Override
+            public void onFailure(Call<List<order>> call, Throwable t) {
+
             }
         });
     }

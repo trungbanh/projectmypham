@@ -13,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -100,6 +101,20 @@ public class AdminAddProductActivity extends AppCompatActivity {
 
     private void setDataType() {
 
+
+        if(TextUtils.isEmpty(edt_name_product.getText().toString())) {
+            edt_name_product.setError("cant be empty");
+        }
+        if(TextUtils.isEmpty(edt_price.getText().toString())) {
+            edt_price.setError("cant be empty");
+        }
+        if(TextUtils.isEmpty(edt_desc.getText().toString())) {
+            edt_desc.setError("cant be empty");
+        }
+        if(TextUtils.isEmpty(edt_quantity.getText().toString())) {
+            edt_quantity.setError("cant be empty");
+        }
+
         ArrayAdapter<String> adapter= new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item,arr);
         adapter.setDropDownViewResource
@@ -109,7 +124,6 @@ public class AdminAddProductActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 tvtype.setText(arr[position]);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 

@@ -24,7 +24,6 @@
     <string name="signup">Signup</string>
     <string name="nick_name">Nick name</string>
     <string name="gi_i_thi_u">Giới thiệu</string>
-    <string name="price">price</string>
     <string name="chon">chọn loại</string>
     <string name="quatity">quatity</string>
     <string name="add">ADD</string>
@@ -36,4 +35,9 @@
     <string name="address">address</string>
     <string name="update_profille">update profille</string>
     <string name="full_name">full name</string>
+    <string name="product_type">product type</string>
+    <string name="product_name">product name</string>
+    <string name="price">price</string>
+    <string name="order_history">Order history</string>
+    <string name="payment_history">payment history</string>
 </resources>

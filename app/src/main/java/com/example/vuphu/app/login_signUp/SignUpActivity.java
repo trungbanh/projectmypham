@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
 import com.example.vuphu.app.object.SignUpToken;
@@ -37,9 +38,7 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
         init();
-
     }
 
     /*
@@ -61,10 +60,18 @@ public class SignUpActivity extends AppCompatActivity {
         AsyncHttpApi.post_signUp("/user/signup",params,new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-
                 String json = response.toString();
                 Gson gson = new Gson();
                 token = gson.fromJson(json,SignUpToken.class);
+                if (token.getToken() != null) {
+                    Toast.makeText(SignUpActivity.this, "signup sucess", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    intent.putExtra("mail",emailText);
+                    intent.putExtra("pass",passText);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(SignUpActivity.this, "signup fail", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -75,21 +82,13 @@ public class SignUpActivity extends AppCompatActivity {
         pass =  findViewById(R.id.edt_pass);
         signup = findViewById(R.id.btn_signup);
     }
-
     void getText() {
         nameText = name.getText().toString();
         emailText= email.getText().toString();
         passText = pass.getText().toString();
     }
-
     public void signUp(View view) {
         getText();
-
         postResquest(getRequest());
-
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        intent.putExtra("mail",emailText);
-        intent.putExtra("pass",passText);
-        startActivity(intent);
     }
 }

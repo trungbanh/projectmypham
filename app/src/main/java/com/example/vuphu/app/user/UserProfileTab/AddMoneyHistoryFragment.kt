@@ -78,17 +78,13 @@ class AddMoneyHistoryFragment : Fragment() {
             }
         })
     }
-
     companion object {
-
-        fun newInstance(): AddMoneyHistoryFragment {
+        public fun newInstance(): AddMoneyHistoryFragment {
             val fragment = AddMoneyHistoryFragment()
             val args = Bundle()
-
             fragment.arguments = args
             return fragment
         }
+
     }
-
-
-}// Required empty public constructor
+}

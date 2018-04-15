@@ -24,6 +24,8 @@ import com.example.vuphu.app.object.AcountId;
 import com.example.vuphu.app.user.AddMoneyFragment;
 import com.example.vuphu.app.user.CatogriesFragment;
 import com.example.vuphu.app.user.ProfileFragment;
+import com.example.vuphu.app.user.UserProfileTab.AddMoneyHistoryFragment;
+import com.example.vuphu.app.user.UserProfileTab.OrderHistoryFragment;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -57,7 +59,6 @@ public class MainActivity extends AppCompatActivity
 
         pre =getSharedPreferences("data", MODE_PRIVATE);
         edit=pre.edit();
-
         SearchQuery();
         initView();
 
@@ -88,7 +89,6 @@ public class MainActivity extends AppCompatActivity
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
                 AsyncHttpApi.get(pre.getString("token",""),"/products/search/"+query,null,new JsonHttpResponseHandler(){
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -97,13 +97,11 @@ public class MainActivity extends AppCompatActivity
                         transaction = getSupportFragmentManager().beginTransaction();
                         transaction.replace(R.id.content, SearchFragment.newInstance(response)).addToBackStack(null);
                         transaction.commit();
-
                     }
                 });
 
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 AsyncHttpApi.get(pre.getString("token",""),"/products/search/"+newText,null,new JsonHttpResponseHandler(){
@@ -114,12 +112,10 @@ public class MainActivity extends AppCompatActivity
                         transaction = getSupportFragmentManager().beginTransaction();
                         transaction.replace(R.id.content, SearchFragment.newInstance(response)).addToBackStack(null);
                         transaction.commit();
-
                     }
                 });
                 return false;
             }
-
         });
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
@@ -156,9 +152,9 @@ public class MainActivity extends AppCompatActivity
         if (searchView.isSearchOpen()) {
             searchView.closeSearch();
         }
-        else
+        else {
             applyExit();
-
+        }
     }
     private void applyExit() {
         if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
@@ -224,11 +220,18 @@ public class MainActivity extends AppCompatActivity
                 setTitle(getString(R.string.quanlinguoidung));
                 temp = AdminUserFragment.newInstance();
                 break;
+            case R.id.nav_order_his :
+                setTitle(getString(R.string.order_history));
+                temp = OrderHistoryFragment.newInstance();
+                break;
+            case R.id.nav_add_money_his :
+                setTitle("Add money History");
+                temp = AddMoneyHistoryFragment.Companion.newInstance();
+                break;
         }
         android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.content,temp);
         transaction.commit();
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
