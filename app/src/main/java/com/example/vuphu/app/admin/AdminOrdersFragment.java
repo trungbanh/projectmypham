@@ -56,10 +56,8 @@ public class AdminOrdersFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_admin_orders, container, false);
-
         pre =getActivity().getSharedPreferences("data", MODE_PRIVATE);
         list_order = v.findViewById(R.id.list_admin_orders);
-
         LinearLayoutManager gridLayoutManager = new LinearLayoutManager(getContext());
         list_order.setLayoutManager(gridLayoutManager);
         list_order.setHasFixedSize(true);
@@ -86,7 +84,6 @@ public class AdminOrdersFragment extends Fragment {
             }
             @Override
             public void onFailure(Call<List<order>> call, Throwable t) {
-
             }
         });
     }
