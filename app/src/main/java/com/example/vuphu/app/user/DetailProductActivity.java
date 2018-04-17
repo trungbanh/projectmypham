@@ -33,25 +33,43 @@ public class DetailProductActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
-        Intent in = getIntent() ;
-        final Product title = (Product) in.getSerializableExtra("data");
 
-        setTitle(title.getName());
+        Intent intent = getIntent();
 
-        title.getId();
+        final String id = intent.getStringExtra("productID");
+        final String name = intent.getStringExtra("productNAME");
+        final int priceget = intent.getIntExtra("productPRICE",0);
+        int soluong = intent.getIntExtra("productQUANLITY",0);
+        String pathImage = intent.getStringExtra("productIMAGE");
+        String des = intent.getStringExtra("productDES");
+
+
+        /*intent.putExtra("productID",list.get(position).getId());
+                        intent.putExtra("productNAME",list.get(position).getId());
+                        intent.putExtra("productPRICE",list.get(position).getId());
+                        intent.putExtra("productTYPE",list.get(position).getId());
+                        intent.putExtra("productQUANLITY",list.get(position).getId());
+                        intent.putExtra("productIMAGE",list.get(position).getId());
+                        intent.putExtra("productDES",list.get(position).getId());*/
+
+        setTitle(name);
+
         imageView = findViewById(R.id.img_detail_product);
-        Picasso.get().load(NetworkConst.network+"/"+title.getProductImage().replace("\\","/")).error(R.drawable.ic_terrain_black_24dp).placeholder(R.drawable.mypham).into(imageView);
+        Picasso.get().load(NetworkConst.network+"/"+pathImage.replace("\\","/")).error(R.drawable.ic_terrain_black_24dp).placeholder(R.drawable.mypham).into(imageView);
 
         price = findViewById(R.id.tv_price);
-        price.setText("Giá: "+title.getPrice()+" đ");
+        price.setText("Giá: "+priceget+" đ");
         desprition = findViewById(R.id.tv_description);
-        desprition.setText(title.getDescription());
+        desprition.setText(des);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), BuyProductActivity.class);
-                intent.putExtra("productId", String.valueOf(title));
+                intent.putExtra("productId",id );
+                intent.putExtra("productName",name );
+                intent.putExtra("productPrice",priceget );
+
                 startActivity(intent);
             }
         });

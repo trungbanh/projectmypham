@@ -48,15 +48,20 @@ class BuyProductActivity : AppCompatActivity() {
 
         val intent = intent
 
-        val product = intent.getSerializableExtra("productId") as Product
+        /*ntent.putExtra("productId",id );
+                intent.putExtra("productName",name );
+                intent.putExtra("productPrice",priceget );*/
 
-        if (product == null) {
+        val name = intent.getStringExtra("productName")
+        val priceget = intent.getIntExtra("productPrice",0)
+        val id = intent.getStringExtra("productId")
+
+        if (name == null) {
             Log.i("null", "fadfasf")
         }
 
-        productsName!!.text = product.name
-
-        price!!.text = product.price!!.toString() + ""
+        productsName!!.text = name
+        price!!.text = priceget.toString() + ""
 
         sub!!.setOnClickListener {
             if (no == 1) {
@@ -64,14 +69,14 @@ class BuyProductActivity : AppCompatActivity() {
             } else {
                 no--
                 quantity!!.text = no.toString()
-                sumary!!.text = (no * product.price!!).toString()
+                sumary!!.text = (no * priceget).toString()
             }
         }
 
         add!!.setOnClickListener {
             no++
             quantity!!.text = no.toString()
-            sumary!!.text = (no * product.price!!).toString()
+            sumary!!.text = (no * priceget).toString()
         }
 
         buy!!.setOnClickListener {
@@ -79,7 +84,9 @@ class BuyProductActivity : AppCompatActivity() {
             if (false) {
                 Toast.makeText(this@BuyProductActivity, "no enough money", Toast.LENGTH_SHORT).show()
             } else {
-                postPostOrder(product.id, no)
+                //add to cart
+                Cart.getInstance().AddProduct(id,no);
+                //postPostOrder(product.id, no)
             }
         }
 

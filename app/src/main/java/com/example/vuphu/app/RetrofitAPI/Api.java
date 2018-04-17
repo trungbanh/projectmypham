@@ -25,12 +25,13 @@ public interface Api {
     @POST("/products")
     @Headers("Content-Type: application/json")
     Call<Void> upLoadProduct (@Header("Authorization") String authorization,
-                              @Part ("productImage")RequestBody body,
+                              @Part MultipartBody.Part body,
                               @Part("name") RequestBody name,
                               @Part("price") RequestBody price,
                               @Part("quatity") RequestBody quantity,
                               @Part("description") RequestBody des,
                               @Part("type") RequestBody type);
+
     @Multipart
     @PUT("/products")
     @Headers("Content-Type: application/json")

@@ -99,9 +99,7 @@ public class AdminEditProductActivity extends AppCompatActivity {
             product.setProductImage(intent.getStringExtra("productIMAGE"));
         }
         setDataType();
-
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -111,7 +109,6 @@ public class AdminEditProductActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     private void init() {
         edt_name_product = findViewById(R.id.edt_admin_name_product);
         edt_price = findViewById(R.id.edt_admin_product_price);

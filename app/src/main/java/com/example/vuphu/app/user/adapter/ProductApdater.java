@@ -66,12 +66,12 @@ public class ProductApdater {
                     try {
                         Intent intent = new Intent(context, DetailProductActivity.class);
                         intent.putExtra("productID",list.get(position).getId());
-                        intent.putExtra("productNAME",list.get(position).getId());
-                        intent.putExtra("productPRICE",list.get(position).getId());
-                        intent.putExtra("productTYPE",list.get(position).getId());
-                        intent.putExtra("productQUANLITY",list.get(position).getId());
-                        intent.putExtra("productIMAGE",list.get(position).getId());
-                        intent.putExtra("productDES",list.get(position).getId());
+                        intent.putExtra("productNAME",list.get(position).getName());
+                        intent.putExtra("productPRICE",list.get(position).getPrice());
+                        intent.putExtra("productTYPE",list.get(position).getType());
+                        intent.putExtra("productQUANLITY",list.get(position).getQuatity());
+                        intent.putExtra("productIMAGE",list.get(position).getProductImage());
+                        intent.putExtra("productDES",list.get(position).getDescription());
 
                         context.startActivity(intent);
                     }catch (Exception e) {}

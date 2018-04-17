@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
 import com.example.vuphu.app.AcsynHttp.NetworkConst;
@@ -65,16 +66,21 @@ public class AdminOrdersFragment extends Fragment {
         return v;
     }
     private void loadOrder () {
-        ApiUtils.getAPIService().adminGetOrder("Bearer "+pre.getString(NetworkConst.token,"")).enqueue(new Callback<List<order>>() {
+        ApiUtils.getAPIService().adminGetOrder("Bearer "+pre.getString(NetworkConst.token,""))
+                .enqueue(new Callback<List<order>>() {
             @Override
             public void onResponse(Call<List<order>> call, Response<List<order>> response) {
 
                 List<order> jArray = response.body();
                 if (response.isSuccessful()) {
-                    for (int i=0;i<=jArray.size();i++){
+                    if (jArray.size()==0){
+                        Toast.makeText(getActivity(),"you dont have any product",Toast.LENGTH_SHORT).show();
 
-                        list.add(jArray.get(i));
-                        Log.i("order",jArray.get(i).toString());
+                    }else {
+                        for (int i = 0; i <= jArray.size(); i++) {
+                            list.add(jArray.get(i));
+                            Log.i("order", jArray.get(i).toString());
+                        }
                     }
                 }
                 AdminOrdersAdapter.orderAdap adap = new AdminOrdersAdapter.orderAdap(list,

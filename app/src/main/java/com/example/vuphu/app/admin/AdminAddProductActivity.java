@@ -35,7 +35,10 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,6 +52,8 @@ public class AdminAddProductActivity extends AppCompatActivity {
     private ImageView img_product;
     private FloatingActionButton btn_add_img;
     private Button btn_add;
+    public static final int PICK_IMAGE = 100;
+    String mediaPath;
 
     private String arr [] = {
             "lotion",
@@ -119,6 +124,7 @@ public class AdminAddProductActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_item,arr);
         adapter.setDropDownViewResource
                 (android.R.layout.simple_list_item_single_choice);
+        edt_type.setAdapter(adapter);
         edt_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -144,61 +150,57 @@ public class AdminAddProductActivity extends AppCompatActivity {
         });
     }
     public void performFileSearch() {
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-        photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent, 0);
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent, 0);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            uri = data.getData();
-            Log.i("link",uri.toString());
-            try {
-                final InputStream imageStream = getContentResolver().openInputStream(uri);
-                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                img_product.setImageBitmap(selectedImage);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
+        if (resultCode == RESULT_OK && requestCode==0) {
+            // Get the Image from data
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            if (cursor != null){
+
             }
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            mediaPath = cursor.getString(columnIndex);
+            // Set the Image in ImageView for Previewing the Media
+            img_product.setImageBitmap(BitmapFactory.decodeFile(mediaPath));
+            cursor.close();
+
         }else {
             Toast.makeText(this, "You haven't picked Image",Toast.LENGTH_LONG).show();
         }
     }
     private void addProduct () {
-        File im = new File (getRealPathFromURI(uri));
-        RequestBody image = RequestBody.create(MediaType.parse("image/*"),im);
+
         RequestBody name = RequestBody.create(MediaType.parse("text/plain"),edt_name_product.getText().toString());
         RequestBody price = RequestBody.create(MediaType.parse("text/plain"),edt_price.getText().toString());
         RequestBody quatity = RequestBody.create(MediaType.parse("text/plain"),edt_quantity.getText().toString());
         RequestBody description = RequestBody.create(MediaType.parse("text/plain"),edt_desc.getText().toString());
         RequestBody type = RequestBody.create(MediaType.parse("text/plain"),tvtype.getText().toString());
+
+        File file = new File(mediaPath);
+        final RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part imageBody = MultipartBody.Part.createFormData("productImage", file.getName(), reqFile);
+
         ApiUtils.getAPIService().upLoadProduct(
                     "Bearer "+ pre.getString(NetworkConst.token,""),
-                    image,name,price,quatity,description,type).enqueue(new Callback<Void>() {
+                imageBody,name,price,quatity,description,type).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                Log.i("se",response.message());
-                Log.i("se",response.isSuccessful()+"");
+                Log.i("se",response+"");
             }
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Log.i("sf",t.getMessage());
             }
         });
-    }
-    private String getRealPathFromURI(Uri contentURI) {
-        String result;
-        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
-        if (cursor == null) {
-            result = contentURI.getPath();
-        } else {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            result = cursor.getString(idx);
-            cursor.close();
-        }
-        return result;
     }
 }
