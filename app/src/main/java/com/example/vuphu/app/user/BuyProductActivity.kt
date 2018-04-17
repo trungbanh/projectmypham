@@ -85,7 +85,8 @@ class BuyProductActivity : AppCompatActivity() {
                 Toast.makeText(this@BuyProductActivity, "no enough money", Toast.LENGTH_SHORT).show()
             } else {
                 //add to cart
-                Cart.getInstance().AddProduct(id,no);
+                Cart.getInstance().AddProduct(id,no)
+
                 //postPostOrder(product.id, no)
             }
         }
