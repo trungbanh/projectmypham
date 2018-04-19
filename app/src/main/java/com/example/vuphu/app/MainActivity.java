@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.vuphu.app.AcsynHttp.AsyncHttpApi;
@@ -22,10 +25,10 @@ import com.example.vuphu.app.admin.AdminUserFragment;
 import com.example.vuphu.app.login_signUp.LoginActivity;
 import com.example.vuphu.app.object.AcountId;
 import com.example.vuphu.app.user.AddMoneyFragment;
-import com.example.vuphu.app.user.CatogriesFragment;
 import com.example.vuphu.app.user.ProfileFragment;
 import com.example.vuphu.app.user.UserProfileTab.AddMoneyHistoryFragment;
 import com.example.vuphu.app.user.UserProfileTab.OrderHistoryFragment;
+import com.example.vuphu.app.user.catogries.CatogriesFragment;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity
 
     private MaterialSearchView searchView;
     NavigationView navigationView ;
+    private ImageView cart ;
 
     private SharedPreferences pre;
     private SharedPreferences.Editor edit;
@@ -50,8 +54,13 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        cart = findViewById(R.id.img_cart);
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -61,16 +70,26 @@ public class MainActivity extends AppCompatActivity
         edit=pre.edit();
         SearchQuery();
         initView();
+        viewCart();
 
     }
+
+    private void viewCart (){
+        cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+
      private void initView () {
-         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
          String user=pre.getString("type_user", "");
          if (user.equals("admin")) {
              navigationView.inflateMenu(R.menu.activity_main_admin);
              setTitle(R.string.danhmucsanpham);
-             android.support.v4.app.FragmentTransaction transaction;
+             FragmentTransaction transaction;
              transaction = getSupportFragmentManager().beginTransaction();
              transaction.replace(R.id.content, AdminCatogoriesFragment.newInstance());
              transaction.commit();
@@ -79,7 +98,7 @@ public class MainActivity extends AppCompatActivity
              navigationView.inflateMenu(R.menu.activity_main_drawer);
              android.support.v4.app.FragmentTransaction transaction;
              transaction = getSupportFragmentManager().beginTransaction();
-             transaction.replace(R.id.content, CatogriesFragment.Companion.newInstance());
+             transaction.replace(R.id.content, CatogriesFragment.newInstance());
              transaction.commit();
          }
          navigationView.setNavigationItemSelectedListener(this);
@@ -135,7 +154,7 @@ public class MainActivity extends AppCompatActivity
                 else {
                     android.support.v4.app.FragmentTransaction transaction;
                     transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.content, CatogriesFragment.Companion.newInstance());
+                    transaction.replace(R.id.content, CatogriesFragment.newInstance());
                     transaction.commit();
                 }
             }
@@ -202,7 +221,7 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_cato :
                 setTitle(getString(R.string.danhmucsanpham));
-                temp = CatogriesFragment.Companion.newInstance();
+                temp = CatogriesFragment.newInstance();
                 break;
             case R.id.nav_add_money:
                 setTitle(getString(R.string.naptien));

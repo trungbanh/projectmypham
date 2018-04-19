@@ -1,57 +1,31 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="none"
     app:layout_scrollFlags="enterAlways"
-    tools:context="com.example.vuphu.app.user.CatogriesFragment">
+    tools:context="com.example.vuphu.app.user.catogries.CatogriesFragment">
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.CardView
+        <android.support.design.widget.TabLayout
+            android:layout_alignParentTop="true"
+            android:id="@+id/tab_layout_cato"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="0dp">
+            android:layout_height="48dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="6dp"
-                android:orientation="vertical">
+        </android.support.design.widget.TabLayout>
 
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/viewPager"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp" />
 
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <TextView
+        <android.support.v4.view.ViewPager
+            android:layout_below="@id/tab_layout_cato"
+            android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:fontFamily="sans-serif-medium"
-            android:padding="10dp"
-            android:text="@string/all_product"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list_product"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            tools:listitems="@layout/item_product"/>
+            android:layout_height="match_parent" />
 
 
-    </LinearLayout>
-</ScrollView>
+
+</RelativeLayout>
 
 
 

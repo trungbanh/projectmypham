@@ -32,7 +32,7 @@ class ViewPagerAdapter(private val context: Context) : PagerAdapter() {
 
         layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = layoutInflater!!.inflate(R.layout.item_walkthrough, null)
-        val img = view.findViewById<ImageView>(R.id.img_viewpager)
+        //val img = view.findViewById<ImageView>(R.id.img_viewpager)
         val tv = view.findViewById<TextView>(R.id.text_viewwpager)
         tv.text = text[position]
         val viewPager = container as ViewPager

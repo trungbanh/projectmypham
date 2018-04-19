@@ -1,29 +1,20 @@
 package com.example.vuphu.app.object;
 
-import com.loopj.android.http.RequestParams;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class ProductBuy {
-    private String product ;
-    private int quatityBuy ;
+    @SerializedName("products")
+    @Expose
+    private List<ProductInCart> products = null;
 
-    public ProductBuy (String productId ,int quantity) {
-        this.product = productId;
-        this.quatityBuy = quantity ;
+    public List<ProductInCart> getProducts() {
+        return products;
     }
 
-     public String getId() {
-        return this.product;
-     }
-     public int getQuantity () {
-        return this.quatityBuy;
-     }
-
-     public RequestParams getParam() {
-        RequestParams params = new RequestParams() ;
-        params.put("product",this.product);
-        params.put("quatityBuy",this.quatityBuy);
-
-        return params;
-     }
-
+    public void setProducts(List<ProductInCart> products) {
+        this.products = products;
+    }
 }

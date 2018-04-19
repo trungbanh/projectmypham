@@ -13,7 +13,7 @@ import android.widget.Toast
 import com.example.vuphu.app.AcsynHttp.AsyncHttpApi
 import com.example.vuphu.app.R
 import com.example.vuphu.app.`object`.Payment
-import com.example.vuphu.app.`object`.Product
+import com.example.vuphu.app.user.cart.Cart
 import com.google.gson.Gson
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
@@ -47,10 +47,6 @@ class BuyProductActivity : AppCompatActivity() {
         edit = pre!!.edit()
 
         val intent = intent
-
-        /*ntent.putExtra("productId",id );
-                intent.putExtra("productName",name );
-                intent.putExtra("productPrice",priceget );*/
 
         val name = intent.getStringExtra("productName")
         val priceget = intent.getIntExtra("productPrice",0)
@@ -86,7 +82,6 @@ class BuyProductActivity : AppCompatActivity() {
             } else {
                 //add to cart
                 Cart.getInstance().AddProduct(id,no)
-
                 //postPostOrder(product.id, no)
             }
         }

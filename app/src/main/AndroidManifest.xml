@@ -3,10 +3,10 @@
     package="com.example.vuphu.app">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -19,7 +19,7 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".user.DetailProductActivity"
             android:label="@string/title_activity_detail_product"
@@ -38,7 +38,7 @@
         <activity
             android:name=".login_signUp.SignUpActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme1"></activity>
+            android:theme="@style/AppTheme1" />
         <activity
             android:name=".admin.AdminEditProductActivity"
             android:screenOrientation="portrait" />
@@ -46,7 +46,8 @@
             android:name=".user.BuyProductActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DialogActivityTheme" />
-        <activity android:name=".admin.AdminAddProductActivity"></activity>
+        <activity android:name=".admin.AdminAddProductActivity" />
+        <activity android:name=".user.cart.CartList"></activity>
     </application>
 
 </manifest>
